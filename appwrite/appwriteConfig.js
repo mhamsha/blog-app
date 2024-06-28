@@ -1,12 +1,14 @@
-import { Client, Databases } from "appwrite";
+import { Client, Databases, Storage, ID } from "appwrite";
 import conf from "../conf/conf.js";
 
 class ConfigService {
   client = new Client();
   databases;
+  storage;
   constructor() {
-    this.client.setEndpoint(conf.appwriteEndpoint).setProject(conf.appwriteProjectID);
+    this.client.setEndpoin(conf.appwriteEndpoint).setProject(conf.appwriteProjectID);
     this.databases = new Databases(this.client);
+    this.storage = new Storage(this.client);
   }
   // * Create Post Method
   async createPost({ title, slug, content, status, featuredImage, userID }) {
@@ -74,6 +76,35 @@ class ConfigService {
       return true;
     } catch (error) {
       console.log("Appwrite :: appwriteConfig :: deletePost :: error", error);
+      return false;
+    }
+  }
+
+  // * Get File Preview Method storage
+  getFilePreview(fileID) {
+    try {
+      return this.storage.getFilePreview(conf.appwriteBucketID, fileID);
+    } catch (error) {
+      console.log("Appwrite :: appwriteConfig :: getFilePreview :: error", error);
+      return false;
+    }
+  }
+
+  // * Upload File Method storage
+  async uploadFile(file) {
+    try {
+      return await this.storage.createFile(conf.appwriteBucketID, ID.unique, file);
+    } catch (error) {
+      console.log("Appwrite :: appwriteConfig :: uploadFile :: error", error);
+      return false;
+    }
+  }
+  async deleteFile(fileId) {
+    try {
+      await this.storage.deleteFile(conf.appwriteBucketID, fileId);
+      return true;
+    } catch (error) {
+      console.log("Appwrite serive :: deleteFile :: error", error);
       return false;
     }
   }
