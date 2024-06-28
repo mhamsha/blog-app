@@ -10,6 +10,9 @@ import LogoutBtnComp from './header/LogoutBtnComp'
 import Protected from './AuthLayout'
 import RteComp from './RteComp'
 import SelectComp from './SelectComp'
+import PostFormComp from './PostFormComp'
+import PostCardComp from ' ./PostCardComp'
+
 
 export {
     HeaderComp,
@@ -23,5 +26,7 @@ export {
     LogoutBtnComp,
     Protected,
     RteComp,
-    SelectComp
+    SelectComp,
+    PostCardComp,
+    PostFormComp
 }
