@@ -13,15 +13,19 @@ class AuthService {
     try {
       return await this.account.get();
     } catch (error) {
-      console.log("Error: appwrite > auth > getCurrentUser : " + error);
+      console.log("Error: appwrite :: auth :: getCurrentUser : " + error);
     }
     return null;
   }
   // * Create a new account
   async createAccount(name, email, password) {
     try {
-      return await this.account.create(ID.unique, email, password, name);
-      // TODO: If user SingUp then call Login with email and password
+      const user = await this.account.create(ID.unique, email, password, name);
+      console.log(user);
+
+      if (user) {
+        return await this.createSession(email, password);
+      }
     } catch (error) {
       console.log("Error: appwrite > auth > createAccount :");
       throw error;
@@ -38,11 +42,12 @@ class AuthService {
   }
   // * Delete a session or logout
   async deleteSession() {
-    return await this.account.deleteSessions();
-  }
-  catch(error) {
-    console.log("Error: appwrite > auth > deleteSession : ");
-    throw error;
+    try {
+      return await this.account.deleteSessions();
+    } catch (error) {
+      console.log("Error: appwrite > auth > deleteSession : ");
+      throw error;
+    }
   }
 }
 const appwriteAuthService = new AuthService();
