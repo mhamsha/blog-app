@@ -1,7 +1,7 @@
 import React from "react";
 import { ContainerComp, PostFormComp } from "../components";
 
-function AddPost() {
+function AddPostPg() {
   return (
     <div className="py-8">
       <ContainerComp>
@@ -11,4 +11,4 @@ function AddPost() {
   );
 }
 
-export default AddPost;
+export default AddPostPg;
