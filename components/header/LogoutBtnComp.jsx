@@ -1,20 +1,23 @@
 import React from "react";
 import { ButtonComp } from "../index";
 import appwriteAuthService from "../../appwrite/appwriteAuth";
+import { logout } from "../../features/authSlice";
 import { useDispatch } from "react-redux";
-function LogoutBtnComp() {
+function LogoutBtnComp({ children="logout", type = "button", onClick, ...props }) {
   const dispatch = useDispatch();
   const logoutHandler = () => {
-    appwriteAuthService.logout().then(() => {
-      dispatch(logout());
+    appwriteAuthService.deleteSession().then((data) => {
+      dispatch(logout(data));
     });
   };
   return (
     <ButtonComp
-      children="Logout"
-      type="button"
-      className="inline-bock px-6 py-2 duration-200 hover:bg-blue-100 rounded-full"
+      children={children}
+      
+      type={type}
+      className="inline-bock px-6 py-2 duration-200 hover:bg-blue-100 hover:text-black rounded-full"
       onClick={logoutHandler}
+      {...props}
     />
   );
 }

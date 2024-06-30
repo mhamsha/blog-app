@@ -1,10 +1,12 @@
 import React from "react";
-import SignupComp from "../components/index";
+import { ContainerComp,SignupComp } from "../components";
 
 function SignupPg() {
-  <div className="py-8">
-    <SignupComp />
-  </div>;
+  return (
+    <ContainerComp className="py-8">
+      <SignupComp />
+    </ContainerComp>
+  );
 }
 
 export default SignupPg;

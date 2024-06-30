@@ -6,7 +6,7 @@ class ConfigService {
   databases;
   storage;
   constructor() {
-    this.client.setEndpoin(conf.appwriteEndpoint).setProject(conf.appwriteProjectID);
+    this.client.setEndpoint(conf.appwriteEndpoint).setProject(conf.appwriteProjectID);
     this.databases = new Databases(this.client);
     this.storage = new Storage(this.client);
   }
@@ -39,8 +39,8 @@ class ConfigService {
         {
           title,
           content,
-          featuredImage,
           status,
+          featuredImage,
         }
       );
     } catch (error) {
@@ -61,9 +61,13 @@ class ConfigService {
     }
   }
   // * Get All Posts Method
-  async getAllPost() {
+  async getAllPost(queries = [Query.equal("status", "active")]) {
     try {
-      return await this.databases.listDocuments(conf.appwriteDatabaseID, conf.appwriteCollectionID);
+      return await this.databases.listDocuments(
+        conf.appwriteDatabaseID,
+        conf.appwriteCollectionID,
+        queries
+      );
     } catch (error) {
       console.log("Appwrite :: appwriteConfig :: getAllPost :: error", error);
       return false;
@@ -93,7 +97,7 @@ class ConfigService {
   // * Upload File Method storage
   async uploadFile(file) {
     try {
-      return await this.storage.createFile(conf.appwriteBucketID, ID.unique, file);
+      return await this.storage.createFile(conf.appwriteBucketID, ID.unique(), file);
     } catch (error) {
       console.log("Appwrite :: appwriteConfig :: uploadFile :: error", error);
       return false;

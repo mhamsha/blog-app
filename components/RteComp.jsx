@@ -1,7 +1,7 @@
 import React from "react";
 import { Editor } from "@tinymce/tinymce-react";
 import { Controller } from "react-hook-form";
-function RteComp({ initialValue, control, UniqueName, label = "Content"}) {
+function RteComp({ defaultValue, control, UniqueName, label = "Content" }) {
   return (
     <>
       {label && <label className="inline-block mb-1 pl-1">{label}</label>}
@@ -11,7 +11,7 @@ function RteComp({ initialValue, control, UniqueName, label = "Content"}) {
         render={({ field: { onChange } }) => (
           <Editor
             apiKey="7ae1y07psjd5w3c9ycmtavlf4nlhjzbk8bgor49otwjeyna3"
-            initialValue={(initialValue && <p>{initialValue}</p>) || "Hello! i am initial value!"} // TODO improve by using ternary operator
+            initialValue={defaultValue}
             init={{
               height: 500,
               menubar: true,

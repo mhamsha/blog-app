@@ -11,7 +11,7 @@ import Protected from './AuthLayout'
 import RteComp from './RteComp'
 import SelectComp from './SelectComp'
 import PostFormComp from './PostFormComp'
-import PostCardComp from ' ./PostCardComp'
+import PostCardComp from './PostCardComp'
 
 
 export {

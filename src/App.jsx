@@ -1,6 +1,6 @@
 import "./App.css";
-import { HeaderComp, FooterComp, SignupComp } from "../components";
-import { useState, useEffect } from "react";
+import { HeaderComp, FooterComp } from "../components";
+import React,{ useState, useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { login as loginStore, logout as logoutStore } from "../features/authSlice";
 import appwriteAuthService from "../appwrite/appwriteAuth";
@@ -20,13 +20,14 @@ function App() {
   return loading ? (
     <h1 className="bg-slate-500 text-white">Loading...zZZ</h1>
   ) : (
-    <div>
+    <div className="h-full">
       <HeaderComp />
       <main>
         <Outlet />
       </main>
       <FooterComp />
     </div>
+
   );
 }
 

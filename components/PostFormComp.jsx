@@ -5,8 +5,10 @@ import appwriteConfigService from "../appwrite/appwriteConfig";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 
-function PostFormComp(post) {
-  const userData = useSelector((state) => state.user);
+function PostFormComp({ post }) {
+  // console.log(post);
+  const userData = useSelector((state) => state.auth.userData);
+
   const navigate = useNavigate();
   const { register, handleSubmit, setValue, control, watch } = useForm({
     defaultValues: {
@@ -24,12 +26,13 @@ function PostFormComp(post) {
         .toLowerCase()
         .replace(/[\s\W-]+/g, "-");
     } else {
-      return "";
+      return " ";
     }
   };
   useEffect(() => {
-    const subscription = watch((data, { fieldName }) => {
-      if (fieldName === "title") {
+    const subscription = watch((data, { name }) => {
+      if (name === "title") {
+        // console.log(name)
         setValue("slug", slugTransfrom(data.title), { shouldValidate: true });
       }
     });
@@ -37,94 +40,101 @@ function PostFormComp(post) {
     return () => subscription.unsubscribe();
   }, [watch, slugTransfrom, setValue]);
 
-  const submitFunc = (data) => {
+  const submitFunc = async (data) => {
+    console.log(data);
     if (post) {
-      const imageUpload = appwriteConfigService.uploadFile(data.featuredImage[0]);
+      const imageUpload = data.featuredImage[0]
+        ? await appwriteConfigService.uploadFile(data.featuredImage[0])
+        : null;
       if (imageUpload) {
-        const imageDelete = appwriteConfigService.deleteFile(post.$id);
-        if (imageDelete) {
-          const postUpdated = appwriteConfigService.updatePost({
-            ...data,
-            featuredImage: imageUpload.$id,
-            userId: userData.$id,
-          });
-          if (postUpdated) {
-            navigate(`/post/${postUpdated.$id}`);
-          }
-        }
-      } else {
-        const imageUpload = appwriteConfigService.uploadFile(data.featuredImage[0]);
-        if (imageUpload) {
-          const postCreated = appwriteConfigService.createPost({
-            ...data,
-            featuredImage: imageUpload.$id,
-            userId: userData.$id,
-          });
-          if (postCreated) {
-            navigate(`/post/${postCreated.$id}`);
-          }
-        }
+        await appwriteConfigService.deleteFile(post.featuredImage);
       }
 
-      return (
-        <form action={handleSubmit(submitFunc)}>
-          <div>
-            <div className="w-2/3 p-2">
-              <InputComp
-                type="text"
-                placeholder="write title"
-                label="Title"
-                {...register("title", { required: true })}
-              />
-              <InputComp
-                type="text"
-                placeholder="title slug"
-                label="Slug"
-                {...register("slug", { required: true })}
-                oninput={(e) => {
-                  setValue("slug", slugTransfrom(e.target.value), { shouldValidate: true });
-                }}
-              />
-              <RteComp
-                initialValue=""
-                control={control}
-                UniqueName="Blog-Content"
-                label="Content"
-                defaultValues={post?.content}
-              />
-            </div>
+      const postUpdated = await appwriteConfigService.updatePost(post.$id, {
+        ...data,
+        featuredImage: imageUpload ? imageUpload.$id : undefined,
+      });
+      if (postUpdated) {
+        // console.log(postUpdated);
+        navigate(`/post/${postUpdated.$id}`);
+      }
+    } else {
+      const imageUpload = await appwriteConfigService.uploadFile(data.featuredImage[0]);
+      // console.log(imageUpload);
+      // console.log(userData.$id)
 
-            <div className="w-1/2 p-2">
-              <InputComp
-                type="file"
-                label="Featured Image"
-                className="mb-4"
-                accept="image/png image/jpeg image/jpg image/gif"
-                {...register("featuredImage", { required: !post })}
-              />
-              {post && (
-                <div className="w-full mb-4">
-                  <img src={appwriteConfigService.getFilePreview(post?.$id)} alt="Image-Preview" />
-                </div>
-              )}
-
-              <SelectComp
-                options={["Active", "InActive"]}
-                label={"Status"}
-                className="mb-4"
-                {...register("status", { required: true })}
-              />
-              <ButtonComp
-                type="submit"
-                children={post ? "Update Post" : "Publish Post"}
-                className={post ? "bg-green-500" : ""}
-              />
-            </div>
-          </div>
-        </form>
-      );
+      if (imageUpload) {
+        console.log(userData);
+        const postCreated = await appwriteConfigService.createPost({
+          ...data,
+          featuredImage: imageUpload.$id,
+          userID: userData.$id,
+        });
+        if (postCreated) {
+          // console.log(postCreated);
+          navigate(`/post/${postCreated.$id}`);
+        }
+      }
     }
   };
+  return (
+    <form onSubmit={handleSubmit(submitFunc)} className="flex flex-wrap">
+      <div className="w-2/3 p-2">
+        <InputComp
+          type="text"
+          placeholder="write title"
+          label="Title"
+          className="mb-4"
+          {...register("title", { required: true })}
+        />
+        <InputComp
+          type="text"
+          placeholder="title slug"
+          label="Slug"
+          className="mb-4"
+          {...register("slug", { required: true })}
+          onInput={(e) => {
+            // console.log(e.currentTarget.value);
+            setValue("slug", slugTransfrom(e.currentTarget.value), { shouldValidate: true });
+          }}
+        />
+        <RteComp
+          defaultValue={post?.content || ""}
+          control={control}
+          UniqueName="content"
+          label="Content"
+        />
+      </div>
+
+      <div className="w-1/2 p-2">
+        <InputComp
+          type="file"
+          label="Featured Image"
+          className="mb-4"
+          accept="image/png image/jpeg image/jpg image/gif"
+          {...register("featuredImage", { required: !post })}
+        />
+        {post && (
+          <div className="w-full mb-4">
+            <img
+              src={appwriteConfigService.getFilePreview(post?.featuredImage)}
+              alt={"Image-Preview"}
+            />
+          </div>
+        )}
+
+        <SelectComp
+          options={["Active", "InActive"]}
+          label={"Status"}
+          className="mb-4"
+          {...register("status", { required: true })}
+        />
+        <ButtonComp type="submit" className={post ? "bg-green-500" : ""}>
+          {post ? "Update Post" : "Create Post"}
+        </ButtonComp>
+      </div>
+    </form>
+  );
 }
 
 export default PostFormComp;

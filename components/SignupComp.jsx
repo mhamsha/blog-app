@@ -59,6 +59,7 @@ function SignupComp() {
           </Link>{" "}
         </p>
         {error && <p className="text-red-600 mt-8 text-center">{error}</p>}
+
         <form onSubmit={handleSubmit(createFunc)}>
           <div className="space-y-5">
             <InputComp
@@ -75,6 +76,11 @@ function SignupComp() {
               placeholder="Email Address"
               {...register("email", {
                 required: true,
+                validate: {
+                  matchPatern: (value) =>
+                    /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/.test(value) ||
+                    "Email address must be a valid address",
+                },
               })}
             />
             <InputComp
@@ -83,11 +89,6 @@ function SignupComp() {
               placeholder="Password"
               {...register("password", {
                 required: true,
-                validate: {
-                  matchPatern: (value) =>
-                    /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/.test(value) ||
-                    "Email address must be a valid address",
-                },
               })}
             />
             <ButtonComp type="submit" children="Create Account" />

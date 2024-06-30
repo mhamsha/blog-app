@@ -1,102 +1,104 @@
 import React from "react";
 import { LogoComp } from "../index";
-import { Link } from "react-router-dom";
+// import { Link } from "react-router-dom";
 
 function FooterComp() {
   return (
-    <section className="relative overflow-hidden py-10 bg-gray-400 border border-t-2 border-t-black">
+    <section className="relative overflow-hidden py-10 bg-slate-600 ">
       <div className="relative z-10 mx-auto max-w-7xl px-4">
         <div className="-m-6 flex flex-wrap">
           <div className="w-full p-6 md:w-1/2 lg:w-5/12">
             <div className="flex h-full flex-col justify-between">
               <div className="mb-4 inline-flex items-center">
-                <LogoComp />
+                <LogoComp textColor="text-white" />
+                {/* <span className="ml-4 text-lg font-bold"></span> */}
               </div>
               <div>
-                <p className="text-sm text-gray-600">
-                  &copy; Copyright 2023. All Rights Reserved by DevUI.
+                {/* <p className="mb-4  text-base font-medium">The Tailwind CSS Component library</p> */}
+                <p className="text-sm text-white">
+                  &copy; Copyright 2024. All Rights Reserved by mhamsha.
                 </p>
               </div>
             </div>
           </div>
           <div className="w-full p-6 md:w-1/2 lg:w-2/12">
             <div className="h-full">
-              <h3 className="tracking-px mb-9  text-xs font-semibold uppercase text-gray-500">
+              <h3 className="tracking-px mb-9  text-xs font-semibold uppercase text-white">
                 Company
               </h3>
               <ul>
                 <li className="mb-4">
-                  <Link className=" text-base font-medium text-gray-900 hover:text-gray-700" to="/">
+                  <a className=" text-base font-medium text-white hover:text-gray-300" href="#">
                     Features
-                  </Link>
+                  </a>
                 </li>
                 <li className="mb-4">
-                  <Link className=" text-base font-medium text-gray-900 hover:text-gray-700" to="/">
+                  <a className=" text-base font-medium text-white hover:text-gray-300" href="#">
                     Pricing
-                  </Link>
+                  </a>
                 </li>
                 <li className="mb-4">
-                  <Link className=" text-base font-medium text-gray-900 hover:text-gray-700" to="/">
+                  <a className=" text-base font-medium text-white hover:text-gray-300" href="#">
                     Affiliate Program
-                  </Link>
+                  </a>
                 </li>
                 <li>
-                  <Link className=" text-base font-medium text-gray-900 hover:text-gray-700" to="/">
+                  <a className=" text-base font-medium text-white hover:text-gray-300" href="#">
                     Press Kit
-                  </Link>
+                  </a>
                 </li>
               </ul>
             </div>
           </div>
           <div className="w-full p-6 md:w-1/2 lg:w-2/12">
             <div className="h-full">
-              <h3 className="tracking-px mb-9  text-xs font-semibold uppercase text-gray-500">
+              <h3 className="tracking-px mb-9  text-xs font-semibold uppercase text-white">
                 Support
               </h3>
               <ul>
                 <li className="mb-4">
-                  <Link className=" text-base font-medium text-gray-900 hover:text-gray-700" to="/">
+                  <a className=" text-base font-medium text-white hover:text-gray-300" href="#">
                     Account
-                  </Link>
+                  </a>
                 </li>
                 <li className="mb-4">
-                  <Link className=" text-base font-medium text-gray-900 hover:text-gray-700" to="/">
+                  <a className=" text-base font-medium text-white hover:text-gray-300" href="#">
                     Help
-                  </Link>
+                  </a>
                 </li>
                 <li className="mb-4">
-                  <Link className=" text-base font-medium text-gray-900 hover:text-gray-700" to="/">
+                  <a className=" text-base font-medium text-white hover:text-gray-300" href="#">
                     Contact Us
-                  </Link>
+                  </a>
                 </li>
                 <li>
-                  <Link className=" text-base font-medium text-gray-900 hover:text-gray-700" to="/">
+                  <a className=" text-base font-medium text-white hover:text-gray-300" href="#">
                     Customer Support
-                  </Link>
+                  </a>
                 </li>
               </ul>
             </div>
           </div>
           <div className="w-full p-6 md:w-1/2 lg:w-3/12">
             <div className="h-full">
-              <h3 className="tracking-px mb-9  text-xs font-semibold uppercase text-gray-500">
+              <h3 className="tracking-px mb-9  text-xs font-semibold uppercase text-white">
                 Legals
               </h3>
               <ul>
                 <li className="mb-4">
-                  <Link className=" text-base font-medium text-gray-900 hover:text-gray-700" to="/">
+                  <a className=" text-base font-medium text-white hover:text-gray-300" href="#">
                     Terms &amp; Conditions
-                  </Link>
+                  </a>
                 </li>
                 <li className="mb-4">
-                  <Link className=" text-base font-medium text-gray-900 hover:text-gray-700" to="/">
+                  <a className=" text-base font-medium text-white hover:text-gray-300" href="#">
                     Privacy Policy
-                  </Link>
+                  </a>
                 </li>
                 <li>
-                  <Link className=" text-base font-medium text-gray-900 hover:text-gray-700" to="/">
+                  <a className=" text-base font-medium text-white hover:text-gray-300" href="#">
                     Licensing
-                  </Link>
+                  </a>
                 </li>
               </ul>
             </div>
