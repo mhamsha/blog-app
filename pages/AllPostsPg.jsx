@@ -21,7 +21,7 @@ function AllPostsPg() {
         <div className="flex flex-wrap">
           {posts.map(
             (post) =>
-              (post.userID == userData.$id) && (
+              (post?.userID == userData?.$id) && (
                 <div key={post.$id} className="p-2 w-1/4">
                   <PostCardComp {...post} />
                 </div>
