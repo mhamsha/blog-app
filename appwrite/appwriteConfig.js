@@ -1,4 +1,4 @@
-import { Client, Databases, Storage, ID } from "appwrite";
+import { Client, Databases, Storage, ID, Query } from "appwrite";
 import conf from "../conf/conf.js";
 
 class ConfigService {
@@ -63,11 +63,12 @@ class ConfigService {
   // * Get All Posts Method
   async getAllPost(queries = [Query.equal("status", "active")]) {
     try {
-      return await this.databases.listDocuments(
+      const allPosts = await this.databases.listDocuments(
         conf.appwriteDatabaseID,
         conf.appwriteCollectionID,
         queries
       );
+      return allPosts;
     } catch (error) {
       console.log("Appwrite :: appwriteConfig :: getAllPost :: error", error);
       return false;

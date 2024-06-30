@@ -3,7 +3,7 @@ import appwriteConfigService from "../appwrite/appwriteConfig";
 import { ContainerComp, PostCardComp } from "../components/index";
 function HomePg() {
   const [allPosts, setAllPosts] = useState([]);
-  console.log(allPosts);
+  // console.log(allPosts);
 
   useEffect(() => {
     appwriteConfigService
