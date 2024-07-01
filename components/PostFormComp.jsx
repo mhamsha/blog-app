@@ -2,10 +2,13 @@ import React, { useEffect } from "react";
 import { InputComp, RteComp, SelectComp, ButtonComp } from "../components/index";
 import { useForm } from "react-hook-form";
 import appwriteConfigService from "../appwrite/appwriteConfig";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import { allPostsRed } from "../features/postSlice";
 
 function PostFormComp({ post }) {
+  const dispatch = useDispatch();
+
   // console.log(post);
   const userData = useSelector((state) => state.auth.userData);
 
@@ -56,6 +59,8 @@ function PostFormComp({ post }) {
       });
       if (postUpdated) {
         // console.log(postUpdated);
+        dispatch(allPostsRed({ posts: [], status: false }));
+
         navigate(`/post/${postUpdated.$id}`);
       }
     } else {
@@ -72,6 +77,7 @@ function PostFormComp({ post }) {
         });
         if (postCreated) {
           // console.log(postCreated);
+          dispatch(allPostsRed({ posts: [], status: false }));
           navigate(`/post/${postCreated.$id}`);
         }
       }
