@@ -1,11 +1,12 @@
 import "./App.css";
-import { HeaderComp, FooterComp } from "../components";
-import React,{ useState, useEffect } from "react";
+import { HeaderComp, FooterComp, LoaderComp } from "../components";
+import React, { useState, useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { login as loginStore, logout as logoutStore } from "../features/authSlice";
 import appwriteAuthService from "../appwrite/appwriteAuth";
 import { Outlet } from "react-router-dom";
 function App() {
+  
   const dispatch = useDispatch();
   const [loading, setLoading] = useState(true);
   // console.log("App.js rendered");
@@ -16,10 +17,12 @@ function App() {
       .then((user) => (user ? dispatch(loginStore(user)) : dispatch(logoutStore())))
       .catch((error) => console.log(error))
       .finally(() => setLoading(false));
-  }, []);
+  }, [dispatch]);
 
   return loading ? (
-    <h1 className="bg-slate-500 text-white">Loading...zZZ</h1>
+    <div>
+      <LoaderComp />
+    </div>
   ) : (
     <div className="h-full">
       <HeaderComp />
@@ -28,7 +31,6 @@ function App() {
       </main>
       <FooterComp />
     </div>
-
   );
 }
 

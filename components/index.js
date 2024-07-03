@@ -12,6 +12,8 @@ import RteComp from './RteComp'
 import SelectComp from './SelectComp'
 import PostFormComp from './PostFormComp'
 import PostCardComp from './PostCardComp'
+import PageNotFoundComp from './PageNotFoundComp'
+import LoaderComp from './LoaderComp'
 
 
 export {
@@ -28,5 +30,7 @@ export {
     RteComp,
     SelectComp,
     PostCardComp,
-    PostFormComp
+    PostFormComp,
+    PageNotFoundComp,
+    LoaderComp
 }

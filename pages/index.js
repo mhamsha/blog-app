@@ -1,17 +1,17 @@
-import HomePg from './HomePg';
+import HomeFeedPg from './HomeFeedPg';
 import AddPostPg from './AddPostPg';
 import PostPg from './PostPg';
 import EditPostPg from './EditPostPg';
 import LoginPg from './LoginPg';
-import AllPostsPg from './AllPostsPg';
+import YourPostsPg from './YourPostsPg';
 import SignupPg from './SignupPg';
 
 export {
-    HomePg,
+    HomeFeedPg,
     AddPostPg,
     PostPg,
     EditPostPg,
     LoginPg,
-    AllPostsPg,
+    YourPostsPg,
     SignupPg,
 }

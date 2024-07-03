@@ -11,7 +11,7 @@ class ConfigService {
     this.storage = new Storage(this.client);
   }
   // * Create Post Method
-  async createPost({ title, slug, content, status, featuredImage, userID }) {
+  async createPost({ title, slug, content, status, featuredImage, userID, quesPara, hashTags }) {
     try {
       return await this.databases.createDocument(
         conf.appwriteDatabaseID,
@@ -23,6 +23,8 @@ class ConfigService {
           status,
           featuredImage,
           userID,
+          quesPara,
+          hashTags,
         }
       );
     } catch (error) {
@@ -30,7 +32,7 @@ class ConfigService {
     }
   }
   // * Update Post Method
-  async updatePost(slug, { title, content, featuredImage, status }) {
+  async updatePost(slug, { title, content, featuredImage, status, quesPara, hashTags }) {
     try {
       return await this.databases.updateDocument(
         conf.appwriteDatabaseID,
@@ -41,6 +43,8 @@ class ConfigService {
           content,
           status,
           featuredImage,
+          quesPara,
+          hashTags,
         }
       );
     } catch (error) {
@@ -61,12 +65,13 @@ class ConfigService {
     }
   }
   // * Get All Posts Method
-  async getAllPost(queries = [Query.equal("status", "active")]) {
+  // queries = [Query.equal("status", "active")]
+  async getAllPost() {
     try {
       const allPosts = await this.databases.listDocuments(
         conf.appwriteDatabaseID,
         conf.appwriteCollectionID,
-        queries
+        // queries
       );
       return allPosts;
     } catch (error) {

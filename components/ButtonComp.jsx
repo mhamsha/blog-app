@@ -1,19 +1,20 @@
-import React from "react";
-
+/* eslint-disable react/prop-types */
 function ButtonComp({
-    children, 
-    type = "button",
-    onClick, 
-    className = "", 
-    bgColor = "bg-red-600",
-    textColor = "text-white",
-    ...props }
-) {
+  children = "Button",
+  type = "button",
+  width = "w-full",
+  bgColor = "bg-blue-600",
+  textColor = "text-white",
+  hover = "hover:bg-blue-700 ",
+  className = "",
+  onClick,
+  ...props
+}) {
   return (
     <button
       type={type}
       onClick={onClick}
-      className={`${bgColor} ${textColor} px-4 py-2 rounded-lg  ${className}`}
+      className={`p-1 rounded-md transition-all shadow-md font-semibold  font-sans ${bgColor} ${textColor} ${hover} ${width}   ${className}`}
       {...props}
     >
       {children}
