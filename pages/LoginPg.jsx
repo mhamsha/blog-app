@@ -1,4 +1,4 @@
-import React from "react";
+
 import { ContainerComp, LoginComp } from "../components";
 
 function LoginPg() {
