@@ -1,6 +1,6 @@
 import "./App.css";
 import { HeaderComp, FooterComp, LoaderComp } from "../components";
-import React, { useState, useEffect } from "react";
+import  { useState, useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { login as loginStore, logout as logoutStore } from "../features/authSlice";
 import appwriteAuthService from "../appwrite/appwriteAuth";

@@ -1,4 +1,5 @@
-import React, { useId } from "react";
+/* eslint-disable react/prop-types */
+import { useId, forwardRef } from "react";
 function Select({ options, label, className, ...props }, ref) {
   const id = useId();
   return (
@@ -19,5 +20,6 @@ function Select({ options, label, className, ...props }, ref) {
     </div>
   );
 }
+const SelectComp = forwardRef(Select);
 
-export default React.forwardRef(Select);
+export default SelectComp;

@@ -1,82 +1,8 @@
-// import React from "react";
-// import { LogoComp, ContainerComp,LogoutBtnComp } from "../index";
-// import { Link, useNavigate } from "react-router-dom";
-// import { useSelector } from "react-redux";
-
-// function HeaderComp() {
-//   const authStatus = useSelector((state) => state.auth.status);
-//   // console.log(authStatus)
-//   const navigate = useNavigate();
-//   const navItems = [
-//     {
-//       name: "Home",
-//       slug: "/",
-//       active: true,
-//     },
-//     {
-//       name: "login",
-//       slug: "/login",
-//       active: !authStatus,
-//     },
-//     {
-//       name: "signup",
-//       slug: "/signup",
-//       active: !authStatus,
-//     },
-//     {
-//       name: "Your Posts",
-//       slug: "/all-posts",
-//       active: authStatus,
-//     },
-//     {
-//       name: "Add Post",
-//       slug: "/add-post",
-//       active: authStatus,
-//     },
-
-//   ];
-//   return (
-//     <header className="py-3 shadow bg-slate-600">
-//       <ContainerComp>
-//         <nav className="flex">
-//           <div className="mr-4">
-//             <Link to={"/"}>
-//               <LogoComp children="mhamsha" textColor="text-white" />
-//             </Link>
-//           </div>
-//           <ul className="flex ml-auto">
-//             {navItems.map((item) => {
-//               return item.active ? (
-//                 <li key={item.name}>
-//                   {/* <Link to={item.slug}>{item.name}</Link> */}
-//                   <button
-//                     onClick={() => navigate(item.slug)}
-//                     className="text-white inline-bock px-6 py-2 duration-200 hover:bg-blue-100 hover:text-black rounded-full"
-//                   >
-//                     {item.name}
-//                   </button>
-//                 </li>
-//               ) : null;
-//             })}
-//             {authStatus && (
-//               <li>
-//                 <LogoutBtnComp />
-//               </li>
-//             )}
-//           </ul>
-//         </nav>
-//       </ContainerComp>
-//     </header>
-//   );
-// }
-
-// export default HeaderComp;
-
 import React from "react";
-import { LogoComp, ContainerComp, LogoutBtnComp } from "../index";
+import { LogoutBtnComp } from "../index";
 import { Link, useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
-import { Menu, X, ChevronDown, ChevronRight } from "lucide-react";
+import { Menu, X } from "lucide-react";
 
 export default function HeaderComp() {
   const navigate = useNavigate();
@@ -134,9 +60,6 @@ export default function HeaderComp() {
                     className="inline-flex items-center text-sm font-semibold text-gray-500 hover:text-gray-900 transition-all"
                   >
                     {item.name}
-                    {/* <span>
-                    <ChevronDown className="ml-2 h-4 w-4" />
-                  </span> */}
                   </Link>
                 </li>
               ) : null;
@@ -147,6 +70,7 @@ export default function HeaderComp() {
           {sideMenuItems.map((item) => {
             return item.active ? (
               <button
+                key={item.name}
                 type="button"
                 onClick={() => {
                   navigate(item.slug);
@@ -158,33 +82,6 @@ export default function HeaderComp() {
             ) : null;
           })}
           {authStatus && <LogoutBtnComp />}
-          {/* <button
-            type="button"
-            onClick={() => {
-              navigate("/signup");
-            }}
-            className="rounded-md bg-transparent px-3 py-2 text-sm font-semibold text-black hover:bg-black/10 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-black"
-          >
-            Sign Up
-          </button> */}
-          {/* <button
-            type="button"
-            onClick={() => {
-              navigate("/login");
-            }}
-            className="rounded-md border border-black px-3 py-2 text-sm font-semibold text-black shadow-sm focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-black"
-          >
-            Log In
-          </button>
-          <button
-            type="button"
-            onClick={() => {
-              navigate("/logout");
-            }}
-            className="rounded-md border border-black px-3 py-2 text-sm font-semibold text-black shadow-sm focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-black"
-          >
-            Log out
-          </button> */}
         </div>
         <div className="sm:hidden">
           <Menu onClick={toggleMenu} className="h-6 w-6 cursor-pointer" />
@@ -221,7 +118,6 @@ export default function HeaderComp() {
                           <span className="ml-3 text-base font-medium hover:text-gray-800 text-gray-500">
                             {item.name}
                           </span>
-                          <span>{/* <ChevronRight className="ml-3 h-4 w-4" /> */}</span>
                         </Link>
                       ) : null;
                     })}
@@ -231,6 +127,7 @@ export default function HeaderComp() {
                   {sideMenuItems.map((item) => {
                     return item.active ? (
                       <button
+                        key={item.name}
                         type="button"
                         onClick={() => {
                           navigate(item.slug);
@@ -242,18 +139,6 @@ export default function HeaderComp() {
                     ) : null;
                   })}
                   {authStatus && <LogoutBtnComp className="w-[40%] " />}
-                  {/* <button
-                    type="button"
-                    className="w-full rounded-md border border-black px-3 py-2 text-sm font-semibold text-black shadow-sm focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-black"
-                  >
-                    Sign In
-                  </button>
-                  <button
-                    type="button"
-                    className="w-full rounded-md bg-black px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-black/10 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-black"
-                  >
-                    Log In
-                  </button> */}
                 </div>
               </div>
             </div>

@@ -24,7 +24,6 @@ function HomeFeedPg() {
   }));
   const { isAllPostsStore, allPostsStore } = useSelector(postInfoSelector);
 
-  console.log(allPostsStore);
   // * fetch data from appwrite and dispatch to store
   useEffect(() => {
     const fetchData = async () => {

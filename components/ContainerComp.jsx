@@ -1,4 +1,4 @@
-import React from "react";
+/* eslint-disable react/prop-types */
 
 function ContainerComp({ children }) {
   return <div className={`w-full max-w-7xl mx-auto px-4`}>{children}</div>;

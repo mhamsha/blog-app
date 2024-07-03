@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import { InputComp, ButtonComp, LogoComp } from "./index.js";
+import { useState } from "react";
+import { InputComp, ButtonComp } from "./index.js";
 import { Link, useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import appwriteAuthService from "../appwrite/appwriteAuth.js";
@@ -12,8 +12,6 @@ function LoginComp() {
   const [error, setError] = useState("");
   const { register, handleSubmit } = useForm();
 
-  
-  
   const loginFunc = async (data) => {
     setError("");
     try {
@@ -23,7 +21,6 @@ function LoginComp() {
         if (userData) {
           dispatch(login(userData));
           navigate("/");
-          // console.log(userData)
         }
       }
     } catch (error) {
@@ -34,11 +31,7 @@ function LoginComp() {
   return (
     <div className="flex items-center justify-center">
       <div className={`mx-auto w-full max-w-lg bg-gray-100 rounded-xl p-10 border border-black/10`}>
-        <div>
-          {/* <span className="inline-block w-full max-w-[100px]">
-            <LogoComp />
-          </span> */}
-        </div>
+        <div>{/* Logo */}</div>
         <h2 className="text-center text-2xl font-bold leading-tight">Sign in to your account</h2>
         <p className="mt-2 text-center text-base text-black/60">
           don&apos;t have an account?&nbsp;
@@ -68,7 +61,9 @@ function LoginComp() {
                 required: true,
               })}
             />
-            <ButtonComp bgColor="bg-blue-500" textColor="text-white" type="submit" children="Log in" />
+            <ButtonComp bgColor="bg-blue-500" textColor="text-white" type="submit">
+              Log In
+            </ButtonComp>
           </div>
         </form>
       </div>

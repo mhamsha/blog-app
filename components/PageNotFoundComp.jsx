@@ -1,6 +1,5 @@
 import { ArrowLeft } from "lucide-react";
 import { useNavigate } from "react-router-dom";
-// import React from "react";
 
 export default function PageNotFoundComp() {
   const navigate = useNavigate();
@@ -24,12 +23,6 @@ export default function PageNotFoundComp() {
             <ArrowLeft size={16} className="mr-2" />
             Go back
           </button>
-          {/* <button
-            type="button"
-            className="rounded-md bg-black px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-black/80 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-black"
-          >
-            Contact us
-          </button> */}
         </div>
       </div>
     </div>

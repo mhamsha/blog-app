@@ -1,10 +1,11 @@
-import React, { useId, forwardRef } from "react";
+/* eslint-disable react/prop-types */
+import { useId, forwardRef } from "react";
 const InputComp = forwardRef(function InputComp(
   { type = "text", placeholder = "Enter text", label, className = "", ...props },
   ref
 ) {
   const inputId = useId();
-  return(
+  return (
     <div className="w-full">
       {label && (
         <label htmlFor={inputId} className="inline-block mb-1 pl-1">

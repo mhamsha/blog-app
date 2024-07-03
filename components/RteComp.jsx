@@ -1,4 +1,5 @@
-import React from "react";
+/* eslint-disable react/prop-types */
+
 import { Editor } from "@tinymce/tinymce-react";
 import { Controller } from "react-hook-form";
 function RteComp({ defaultValue, control, UniqueName, label = "Content" }) {

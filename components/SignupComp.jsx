@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import { InputComp, ButtonComp, LogoComp } from "./index.js";
+import { useState } from "react";
+import { InputComp, ButtonComp } from "./index.js";
 import { Link, useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import appwriteAuthService from "../appwrite/appwriteAuth.js";
@@ -12,17 +12,6 @@ function SignupComp() {
   const [error, setError] = useState("");
   const { register, handleSubmit } = useForm();
 
-  // const create = (data) => {
-  //   setError("");
-
-  //   appwriteAuthService.createAccount(data)
-  //     .then(() => appwriteAuthService.getCurrentUser().then((userData) => dispatch(login(userData) && navigate("/")))
-  //     )
-
-  //     .catch((error) => {
-  //       setError(error);
-  //     });
-  // };
   const createFunc = async (data) => {
     setError("");
     try {
@@ -44,9 +33,7 @@ function SignupComp() {
     <div className="flex items-center justify-center">
       <div className={`mx-auto w-full max-w-lg bg-gray-100 rounded-xl p-10 border border-black/10`}>
         <div>
-          {/* <span className="inline-block w-full max-w-[100px]">
-            <LogoComp />
-          </span> */}
+          {/* Logo*/}
         </div>
         <h2 className="text-center text-2xl font-bold leading-tight">Sign up to create account</h2>
         <p className="mt-2 text-center text-base text-black/60">
@@ -91,12 +78,9 @@ function SignupComp() {
                 required: true,
               })}
             />
-            <ButtonComp
-              bgColor="bg-blue-500"
-              textColor="text-white"
-              type="submit"
-              children="Create Account"
-            />
+            <ButtonComp bgColor="bg-blue-500" textColor="text-white" type="submit">
+              Create Account
+            </ButtonComp>
           </div>
         </form>
       </div>

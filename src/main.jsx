@@ -4,10 +4,16 @@ import "./index.css";
 import { Provider } from "react-redux";
 import { store } from "../store/store.js";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
-import { HomeFeedPg, AddPostPg, PostPg, EditPostPg, LoginPg,YourPostsPg, SignupPg } from "../pages";
+import {
+  HomeFeedPg,
+  AddPostPg,
+  PostPg,
+  EditPostPg,
+  LoginPg,
+  YourPostsPg,
+  SignupPg,
+} from "../pages";
 import { Protected, PageNotFoundComp } from "../components";
-
-// import { filePreview } from "../pages/PostPg.jsx";
 
 const router = createBrowserRouter([
   {
@@ -70,8 +76,6 @@ const router = createBrowserRouter([
             <PostPg />
           </Protected>
         ),
-        // element: <PostPg />,
-        // loader: filePreview,
       },
       {
         path: "*",
