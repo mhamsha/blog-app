@@ -1,6 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-
 const postSlice = createSlice({
   name: "post",
   initialState: {
@@ -12,6 +11,7 @@ const postSlice = createSlice({
       state.posts = action.payload.posts;
       state.status = action.payload.status;
     },
+    
   },
 });
 

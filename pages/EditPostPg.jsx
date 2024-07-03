@@ -1,31 +1,24 @@
-import React, {useEffect, useState} from 'react'
-import {ContainerComp, PostFormComp} from '../components'
-import appwriteConfigService from "../appwrite/appwriteConfig";
-import { useNavigate,  useParams } from 'react-router-dom';
+import { ContainerComp, PostFormComp } from "../components";
+import { useParams } from "react-router-dom";
+import { useSelector } from "react-redux";
+import { createSelector } from "reselect";
 
 function EditPost() {
-    const [post, setPosts] = useState(null)
-    const {slug} = useParams()
-    const navigate = useNavigate()
+  const { slug } = useParams();
+  const isAllPostsStore = (state) => state.post.posts;
+  const postInfoSelector = createSelector([isAllPostsStore], (posts) => ({
+    allPostsStore: posts,
+  }));
+  const { allPostsStore } = useSelector(postInfoSelector);
+  const post = allPostsStore.find((post) => post.$id === slug);
 
-    useEffect(() => {
-        if (slug) {
-            appwriteConfigService.getPost(slug).then((post) => {
-                if (post) {
-                    setPosts(post)
-                }
-            })
-        } else {
-            navigate('/')
-        }
-    }, [slug, navigate])
   return post ? (
-    <div className='py-8'>
-        <ContainerComp>
-            <PostFormComp post={post} />
-        </ContainerComp>
+    <div className="py-8">
+      <ContainerComp>
+        <PostFormComp post={post} />
+      </ContainerComp>
     </div>
-  ) : null
+  ) : null;
 }
 
-export default EditPost
+export default EditPost;

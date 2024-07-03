@@ -35,9 +35,9 @@ function LoginComp() {
     <div className="flex items-center justify-center">
       <div className={`mx-auto w-full max-w-lg bg-gray-100 rounded-xl p-10 border border-black/10`}>
         <div>
-          <span className="inline-block w-full max-w-[100px]">
+          {/* <span className="inline-block w-full max-w-[100px]">
             <LogoComp />
-          </span>
+          </span> */}
         </div>
         <h2 className="text-center text-2xl font-bold leading-tight">Sign in to your account</h2>
         <p className="mt-2 text-center text-base text-black/60">
@@ -68,7 +68,7 @@ function LoginComp() {
                 required: true,
               })}
             />
-            <ButtonComp type="submit" children="Log in" />
+            <ButtonComp bgColor="bg-blue-500" textColor="text-white" type="submit" children="Log in" />
           </div>
         </form>
       </div>

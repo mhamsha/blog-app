@@ -1,12 +1,13 @@
-import React from "react";
 import ReactDOM from "react-dom/client";
 import App from "./App.jsx";
 import "./index.css";
 import { Provider } from "react-redux";
 import { store } from "../store/store.js";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
-import { HomePg, AddPostPg, PostPg, EditPostPg, LoginPg, AllPostsPg, SignupPg } from "../pages";
-import { Protected } from "../components";
+import { HomeFeedPg, AddPostPg, PostPg, EditPostPg, LoginPg,YourPostsPg, SignupPg } from "../pages";
+import { Protected, PageNotFoundComp } from "../components";
+
+// import { filePreview } from "../pages/PostPg.jsx";
 
 const router = createBrowserRouter([
   {
@@ -18,7 +19,7 @@ const router = createBrowserRouter([
 
         element: (
           <Protected authentication>
-            <HomePg />
+            <HomeFeedPg />
           </Protected>
         ),
       },
@@ -39,10 +40,10 @@ const router = createBrowserRouter([
         ),
       },
       {
-        path: "/all-posts",
+        path: "/your-posts",
         element: (
           <Protected authentication>
-            <AllPostsPg />
+            <YourPostsPg />
           </Protected>
         ),
       },
@@ -69,10 +70,12 @@ const router = createBrowserRouter([
             <PostPg />
           </Protected>
         ),
+        // element: <PostPg />,
+        // loader: filePreview,
       },
       {
         path: "*",
-        element: <h1>404 Not Found</h1>,
+        element: <PageNotFoundComp />,
       },
     ],
   },
