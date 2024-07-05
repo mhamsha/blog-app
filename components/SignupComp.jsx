@@ -15,13 +15,12 @@ function SignupComp() {
   const createFunc = async (data) => {
     setError("");
     try {
-      const userData = await appwriteAuthService.createAccount(data);
-      if (userData) {
+      const response = await appwriteAuthService.createAccount(data);
+      if (response) {
         const userData = await appwriteAuthService.getCurrentUser();
         if (userData) {
           dispatch(login(userData));
           navigate("/");
-          // console.log(userData)
         }
       }
     } catch (error) {
@@ -32,9 +31,7 @@ function SignupComp() {
   return (
     <div className="flex items-center justify-center">
       <div className={`mx-auto w-full max-w-lg bg-gray-100 rounded-xl p-10 border border-black/10`}>
-        <div>
-          {/* Logo*/}
-        </div>
+        <div>{/* Logo*/}</div>
         <h2 className="text-center text-2xl font-bold leading-tight">Sign up to create account</h2>
         <p className="mt-2 text-center text-base text-black/60">
           Already have an account?&nbsp;

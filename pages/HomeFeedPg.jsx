@@ -26,6 +26,7 @@ function HomeFeedPg() {
 
   // * fetch data from appwrite and dispatch to store
   useEffect(() => {
+    
     const fetchData = async () => {
       if (!isAllPostsStore) {
         try {

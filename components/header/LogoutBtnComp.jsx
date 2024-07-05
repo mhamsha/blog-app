@@ -15,7 +15,7 @@ function LogoutBtnComp({ children = "logout", type = "submit", className = "", .
       bgColor="bg-gray-300"
       textColor="text-gray-600"
       type={type}
-      className={`inline-bock px-6 py-2 duration-200 h rounded-full hover:bg-red-500 hover:text-white transition-all ${className}`}
+      className={`inline-bock m-2 px-2 py-1 duration-200 h rounded-full hover:bg-red-500 hover:text-white transition-all ${className}`}
       onClick={logoutHandler}
       {...props}
     >

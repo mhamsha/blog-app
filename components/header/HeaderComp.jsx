@@ -1,5 +1,5 @@
 import React from "react";
-import { LogoutBtnComp } from "../index";
+import { LogoutBtnComp, ButtonComp } from "../index";
 import { Link, useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { Menu, X } from "lucide-react";
@@ -7,6 +7,8 @@ import { Menu, X } from "lucide-react";
 export default function HeaderComp() {
   const navigate = useNavigate();
   const authStatus = useSelector((state) => state.auth.status);
+  const userData = useSelector((state) => state.auth.userData);
+
   const menuItems = [
     {
       name: "Home Feed",
@@ -81,8 +83,26 @@ export default function HeaderComp() {
               </button>
             ) : null;
           })}
-          {authStatus && <LogoutBtnComp />}
+          {authStatus && (
+            <ButtonComp
+              type="button"
+              onClick={() => {
+                navigate("/account-verify");
+              }}
+              // className={`text-sm py-1.5 px-1 bg-red-500 hover:bg-red-600 `}
+              className={`text-sm py-1.5 px-1 ${
+                userData.emailVerification
+                  ? "bg-green-500 cursor-default hover:bg-green-500"
+                  : "bg-red-500 hover:bg-red-600"
+              }`}
+              disabled={userData.emailVerification}
+            >
+              {userData.emailVerification ? "Account Verified" : "Verify Account"}
+            </ButtonComp>
+          )}
+          {/* if i don't want to remove the button but just change classNames like not clickable bg blue any event not occur when click on it */}
         </div>
+        <div>{authStatus && <LogoutBtnComp className="hidden sm:block" />}</div>
         <div className="sm:hidden">
           <Menu onClick={toggleMenu} className="h-6 w-6 cursor-pointer" />
         </div>
@@ -138,6 +158,22 @@ export default function HeaderComp() {
                       </button>
                     ) : null;
                   })}
+                  {authStatus && (
+                    <ButtonComp
+                      type="button"
+                      onClick={() => {
+                        navigate("/account-verify");
+                      }}
+                      className={`text-sm py-1.5 px-1 ml-2   ${
+                        userData.emailVerification
+                          ? "bg-green-500 cursor-default hover:bg-green-500"
+                          : "bg-red-500 hover:bg-red-600"
+                      }`}
+                      disabled={userData.emailVerification}
+                    >
+                      {userData.emailVerification ? "Account Verified" : "Verify Account"}
+                    </ButtonComp>
+                  )}
                   {authStatus && <LogoutBtnComp className="w-[40%] " />}
                 </div>
               </div>

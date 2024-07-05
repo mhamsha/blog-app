@@ -5,12 +5,14 @@ import { createSelector } from "reselect";
 function YourPostsPg() {
   const isUserData = (state) => state.auth.userData;
 
+
   const postsSelector = (state) => state.post.posts;
   const postInfoSelector = createSelector([postsSelector, isUserData], (posts, data) => ({
     allPostsStore: posts,
     userData: data,
   }));
   const { allPostsStore, userData } = useSelector(postInfoSelector);
+  // console.log(userData)
 
   return (
     <ContainerComp>
