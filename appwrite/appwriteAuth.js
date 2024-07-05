@@ -69,6 +69,28 @@ class AuthService {
       throw error;
     }
   }
+  // * Github Login
+  async githubLogin() {
+    try {
+      this.account.createOAuth2Session(
+        "github",
+        "http://localhost:5173/",
+        "http://localhost:5173/login"
+      );
+    } catch (error) {
+      console.log("Error: appwrite :: auth :: githubLogin : " + error);
+      throw error;
+    }
+  }
+  // * Github session
+  async getCurrentSession() {
+    try {
+      return await this.account.getSession("current");
+    } catch (error) {
+      console.log("Error: appwrite :: auth :: githubSession : " + error);
+      throw error;
+    }
+  }
 }
 const appwriteAuthService = new AuthService();
 export default appwriteAuthService;

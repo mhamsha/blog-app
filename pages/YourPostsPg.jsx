@@ -16,7 +16,7 @@ function YourPostsPg() {
 
   return (
     <ContainerComp>
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
         {allPostsStore.map(
           (post) =>
             post?.userID == userData?.$id && (
@@ -24,7 +24,7 @@ function YourPostsPg() {
                 <PostCardComp {...post} />
               </div>
             )
-        )}
+        )} 
       </div>
     </ContainerComp>
   );
