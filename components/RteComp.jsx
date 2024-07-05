@@ -2,6 +2,7 @@
 
 import { Editor } from "@tinymce/tinymce-react";
 import { Controller } from "react-hook-form";
+import conf from "../conf/conf"
 function RteComp({ defaultValue, control, UniqueName, label = "Content" }) {
   return (
     <>
@@ -11,7 +12,7 @@ function RteComp({ defaultValue, control, UniqueName, label = "Content" }) {
         name={UniqueName || "content"}
         render={({ field: { onChange } }) => (
           <Editor
-            apiKey="7ae1y07psjd5w3c9ycmtavlf4nlhjzbk8bgor49otwjeyna3"
+            apiKey={conf.tinymceApiKey}
             initialValue={defaultValue}
             init={{
               height: 500,
