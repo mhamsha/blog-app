@@ -13,7 +13,7 @@ import {
   YourPostsPg,
   SignupPg,
 } from "../pages";
-import { Protected, PageNotFoundComp } from "../components";
+import { Protected, PageNotFoundComp, OtpComp } from "../components";
 
 const router = createBrowserRouter([
   {
@@ -22,7 +22,6 @@ const router = createBrowserRouter([
     children: [
       {
         path: "/",
-
         element: (
           <Protected authentication>
             <HomeFeedPg />
@@ -45,6 +44,16 @@ const router = createBrowserRouter([
           </Protected>
         ),
       },
+
+      {
+        path: "/account-verify",
+        element: (
+          <Protected>
+            <OtpComp />,
+          </Protected>
+        ),
+      },
+
       {
         path: "/your-posts",
         element: (

@@ -12,33 +12,30 @@ class AuthService {
   async getCurrentUser() {
     try {
       return await this.account.get();
-      
-      
     } catch (error) {
       console.log("Error: appwrite :: auth :: getCurrentUser : " + error);
     }
     return null;
   }
   // * Create a new account
-  async createAccount({email, password, name}) {
+  async createAccount({ email, password, name }) {
     try {
       const user = await this.account.create(ID.unique(), email, password, name);
-      console.log(user)
+      // console.log(user);
 
       if (user) {
-        return await this.createSession({email, password});
-        
+        return await this.createSession({ email, password });
       }
+      return user;
     } catch (error) {
       console.log("Error: appwrite > auth > createAccount :");
       throw error;
     }
   }
   // * Create a new session or login
-  async createSession({email, password}) {
+  async createSession({ email, password }) {
     try {
       return await this.account.createEmailPasswordSession(email, password);
-
     } catch (error) {
       console.log("Error: appwrite > auth > createSession : ");
       throw error;
@@ -50,6 +47,25 @@ class AuthService {
       return await this.account.deleteSessions();
     } catch (error) {
       console.log("Error: appwrite > auth > deleteSession : ");
+      throw error;
+    }
+  }
+
+  // * Create a new OTP
+  async createOtpToken(email) {
+    try {
+      return await this.account.createEmailToken(ID.unique(), email);
+    } catch (error) {
+      console.log("Error: appwrite :: auth :: createOTP : ");
+      throw error;
+    }
+  }
+  // * Verify OTP and login User
+  async createOtpSession(userId, secret) {
+    try {
+      return await this.account.createSession(userId, secret);
+    } catch (error) {
+      console.log("Error: appwrite :: auth :: createOtpSession : ");
       throw error;
     }
   }

@@ -1,10 +1,11 @@
 import { createSlice } from "@reduxjs/toolkit";
 
- const authSlice = createSlice({
+const authSlice = createSlice({
   name: "auth",
   initialState: {
     userData: null,
     status: false,
+    // otpStatus: false,
   },
   reducers: {
     login: (state, action) => {
@@ -15,6 +16,9 @@ import { createSlice } from "@reduxjs/toolkit";
       state.userData = null;
       state.status = false;
     },
+    // otpCheck: (state,action) => {
+    //   state.otpStatus = action.payload;
+    // },
   },
 });
 
