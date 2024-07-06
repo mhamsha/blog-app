@@ -19,8 +19,8 @@ export default function PostCardComp({ $id, title, featuredImage, quesPara, hash
           className="h-[200px] w-full rounded-t-lg object-cover"
         />
         <div className="p-4 ">
-          <h1 className="inline-flex items-center text-lg font-semibold title">{title}</h1>
-          <p className="mt-3 text-sm text-gray-600 description ">{quesPara}</p>
+          <h1 className="inline-flex items-center text-lg font-semibold sm:title">{title}</h1>
+          <p className="mt-3 text-sm text-gray-600 sm:description ">{quesPara}</p>
 
           <div className="mt-4 flex items-center">
             {hashTagsArray.slice(0, 2).map((tag) => (
