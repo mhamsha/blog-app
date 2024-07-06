@@ -6,6 +6,7 @@ import appwriteAuthService from "../appwrite/appwriteAuth.js";
 import { login } from "../features/authSlice.js";
 import { useDispatch } from "react-redux";
 import { Turnstile } from "@marsidev/react-turnstile";
+import conf from "../conf/conf.js";
 
 function LoginComp() {
   const [isAllowed, setIsAllowed] = useState(true);
@@ -65,7 +66,7 @@ function LoginComp() {
             <InputComp
               type="email"
               label="Email: "
-              placeholder="Email Address"
+              placeholder="Email Address" 
               {...register("email", {
                 required: "Email is required",
               })}
@@ -85,7 +86,7 @@ function LoginComp() {
             />
             <div className="flex justify-center">
               <Turnstile
-                siteKey="0x4AAAAAAAee5Pza3VCJ4CE2"
+                siteKey={conf.cloudFlareSiteKey}
                 onSuccess={(response) => {
                   if (response) handleSuccessTurnstile();
                 }}

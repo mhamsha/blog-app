@@ -6,6 +6,8 @@ import appwriteAuthService from "../appwrite/appwriteAuth.js";
 import { login } from "../features/authSlice.js";
 import { useDispatch } from "react-redux";
 import { Turnstile } from "@marsidev/react-turnstile";
+import conf from "../conf/conf.js";
+
 
 function SignupComp() {
   const [isAllowed, setIsAllowed] = useState(true);
@@ -121,10 +123,10 @@ function SignupComp() {
                 validate: (value) => value === currentPassword || "The passwords do not match",
               })}
             />
-
+ 
             <div className="flex justify-center">
               <Turnstile
-                siteKey="0x4AAAAAAAee5Pza3VCJ4CE2"
+                siteKey={conf.cloudFlareSiteKey}
                 onSuccess={(response) => {
                   if (response) handleSuccessTurnstile();
                 }}
