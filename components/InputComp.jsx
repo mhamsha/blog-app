@@ -16,7 +16,7 @@ const InputComp = forwardRef(function InputComp(
         id={inputId}
         type={type}
         placeholder={placeholder}
-        className={`px-3 py-2 rounded-lg bg-white text-black outline-none focus:bg-gray-50 duration-200 border border-gray-200 w-full ${className}`}
+        className={`px-3 py-2 rounded-lg bg-white text-black outline-none focus:border-cyan-600 duration-200 border border-gray-400 w-full ${className}`}
         ref={ref}
         {...props}
       />

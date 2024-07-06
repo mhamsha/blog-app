@@ -5,11 +5,19 @@ import { useForm } from "react-hook-form";
 import appwriteAuthService from "../appwrite/appwriteAuth.js";
 import { login } from "../features/authSlice.js";
 import { useDispatch } from "react-redux";
+import { Turnstile } from "@marsidev/react-turnstile";
+
 function SignupComp() {
+  const [isAllowed, setIsAllowed] = useState(true);
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [error, setError] = useState("");
-  const { register, handleSubmit } = useForm();
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+    watch,
+  } = useForm();
 
   const createFunc = async (data) => {
     setError("");
@@ -34,12 +42,19 @@ function SignupComp() {
       setError(error.message);
     }
   };
+  const currentPassword = watch("password");
+
+  const handleSuccessTurnstile = () => {
+    setIsAllowed(false);
+  };
+
   return (
-    <div className="flex items-center justify-center">
-      <div className={`mx-auto w-full max-w-lg bg-gray-100 rounded-xl p-10 border border-black/10`}>
-        <div>{/* Logo*/}</div>
+    <div className="flex items-center justify-center ">
+      <div
+        className={`mx-auto w-full max-w-lg bg-gray-200 rounded-xl p-10  border border-black/10`}
+      >
         <h2 className="text-center text-2xl font-bold leading-tight">Sign up to create account</h2>
-        <p className="mt-2 text-center text-base text-black/60">
+        <p className="my-2 text-center text-base text-black/60 ">
           Already have an account?&nbsp;
           <Link
             to="/login"
@@ -52,20 +67,27 @@ function SignupComp() {
 
         <form onSubmit={handleSubmit(createFunc)}>
           <div className="space-y-5">
+            {errors.name && <p className="text-red-600 mt-2">{errors.name.message}</p>}
             <InputComp
               type="text"
               label="Name: "
               placeholder="Full Name"
               {...register("name", {
-                required: true,
+                required: "Name is required",
+                validate: {
+                  matchPatern: (value) =>
+                    /^[A-Za-z][A-Za-z0-9]{5,29}$/.test(value) ||
+                    "6-30 chars, no special chars, must start with a letter.",
+                },
               })}
             />
+            {errors.email && <p className="text-red-600 mt-2">{errors.email.message}</p>}
             <InputComp
               type="email"
               label="Email: "
               placeholder="Email Address"
               {...register("email", {
-                required: true,
+                required: "Email is required",
                 validate: {
                   matchPatern: (value) =>
                     /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/.test(value) ||
@@ -73,15 +95,55 @@ function SignupComp() {
                 },
               })}
             />
+            {errors.password && <p className="text-red-600 mt-2">{errors.password.message}</p>}
             <InputComp
               type="password"
               label="Password: "
               placeholder="Password"
               {...register("password", {
-                required: true,
+                required: "Password is required",
+                validate: {
+                  matchPatern: (value) =>
+                    /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/.test(value) ||
+                    "At least 8 characters, including letters and numbers",
+                },
               })}
             />
-            <ButtonComp bgColor="bg-blue-500" textColor="text-white" type="submit">
+            {errors.repeat_password && (
+              <p className="text-red-600 mt-2">{errors.repeat_password.message}</p>
+            )}
+            <InputComp
+              type="password"
+              label="Repeat Password: "
+              placeholder="Repeat Password"
+              {...register("repeat_password", {
+                required: "Repeat Password is required",
+                validate: (value) => value === currentPassword || "The passwords do not match",
+              })}
+            />
+
+            <div className="flex justify-center">
+              <Turnstile
+                siteKey="0x4AAAAAAAee5Pza3VCJ4CE2"
+                onSuccess={(response) => {
+                  if (response) handleSuccessTurnstile();
+                }}
+                onError={(error) => {
+                  if (error);
+                }}
+                options={{
+                  action: "submit-form",
+                  theme: "light",
+                  size: "normal",
+                }}
+              />
+            </div>
+            <ButtonComp
+              bgColor="bg-blue-500"
+              textColor="text-white"
+              type="submit"
+              disabled={isAllowed}
+            >
               Create Account
             </ButtonComp>
           </div>

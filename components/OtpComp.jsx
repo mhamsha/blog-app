@@ -141,7 +141,7 @@ function OtpComp() {
                     <InputComp
                       type="number"
                       placeholder="Enter Code"
-                      className="w-8 h-8 text-center text-2xl font-bold text-slate-900 bg-slate-100 border border-indigo-400 hover:border-slate-200 appearance-none rounded p-4 outline-none focus:bg-white focus:border-indigo-600 focus:ring-2 focus:ring-indigo-100"
+                      className="w-8 h-8 text-center text-2xl  font-bold t text-slate-900 bg-slate-100 border border-indigo-400 hover:border-slate-200 appearance-none rounded p-4 outline-none focus:bg-white focus:border-indigo-600 focus:ring-2 focus:ring-indigo-100"
                       {...register("otp", {
                         required: true,
                         pattern: {
@@ -154,7 +154,7 @@ function OtpComp() {
                     <InputComp
                       type="email"
                       placeholder="Enter Your Valid Email Address"
-                      className="w-8 h-8 text-center text-xl font-semibold text-slate-900 bg-slate-100 border border-indigo-400 hover:border-slate-200 appearance-none rounded p-4 outline-none focus:bg-white focus:border-indigo-600 focus:ring-2 focus:ring-indigo-100"
+                      className="w-8 h-8 text-center sm:text-xl text-md  sm:font-semibold  text-slate-900 bg-slate-100 border border-indigo-400 hover:border-slate-200 appearance-none rounded p-4 outline-none focus:bg-white focus:border-indigo-600 focus:ring-2 focus:ring-indigo-100"
                       {...register("email", {
                         required: true,
                         validate: {
