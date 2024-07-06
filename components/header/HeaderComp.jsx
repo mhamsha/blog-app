@@ -131,6 +131,7 @@ export default function HeaderComp() {
                     {menuItems.map((item) => {
                       return item.active ? (
                         <Link
+                         onClick={toggleMenu}
                           key={item.name}
                           to={item.slug}
                           className="-m-3 flex items-center rounded-md p-3 text-sm font-semibold  transition-all "
@@ -151,6 +152,7 @@ export default function HeaderComp() {
                         type="button"
                         onClick={() => {
                           navigate(item.slug);
+                          toggleMenu();
                         }}
                         className="w-full rounded-md border border-black px-3 py-2 text-sm font-semibold text-black shadow-sm focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-black"
                       >
