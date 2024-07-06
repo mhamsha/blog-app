@@ -14,6 +14,7 @@ import {
   SignupPg,
 } from "../pages";
 import { Protected, PageNotFoundComp, OtpComp } from "../components";
+import { SpeedInsights } from "@vercel/speed-insights/react";
 
 const router = createBrowserRouter([
   {
@@ -97,7 +98,9 @@ const router = createBrowserRouter([
 ReactDOM.createRoot(document.getElementById("root")).render(
   <Provider store={store}>
     {/* <React.StrictMode> */}
-    <RouterProvider router={router} />
+    <SpeedInsights>
+      <RouterProvider router={router} />
+    </SpeedInsights>
     {/* </React.StrictMode> */}
   </Provider>
 );
