@@ -74,8 +74,8 @@ class AuthService {
     try {
       this.account.createOAuth2Session(
         "github",
-        "http://localhost:5173/",
-        "http://localhost:5173/login"
+        "https://mhamsha-blog.vercel.app/",
+        "https://mhamsha-blog.vercel.app/login"
       );
     } catch (error) {
       console.log("Error: appwrite :: auth :: githubLogin : " + error);
