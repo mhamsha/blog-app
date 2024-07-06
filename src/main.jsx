@@ -98,9 +98,9 @@ const router = createBrowserRouter([
 ReactDOM.createRoot(document.getElementById("root")).render(
   <Provider store={store}>
     {/* <React.StrictMode> */}
-    <SpeedInsights>
-      <RouterProvider router={router} />
-    </SpeedInsights>
+
+    <RouterProvider router={router} />
+    <SpeedInsights />
     {/* </React.StrictMode> */}
   </Provider>
 );
