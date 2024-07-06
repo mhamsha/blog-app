@@ -78,7 +78,7 @@ function SignupComp() {
                 required: "Name is required",
                 validate: {
                   matchPatern: (value) =>
-                    /^[A-Za-z][A-Za-z0-9]{5,29}$/.test(value) ||
+                   /^[A-Za-z ]{4,30}$/.test(value) ||
                     "6-30 chars, no special chars, must start with a letter.",
                 },
               })}
