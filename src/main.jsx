@@ -14,7 +14,6 @@ import {
   SignupPg,
 } from "../pages";
 import { Protected, PageNotFoundComp, OtpComp } from "../components";
-
 const router = createBrowserRouter([
   {
     path: "/",
@@ -90,6 +89,7 @@ const router = createBrowserRouter([
         path: "*",
         element: <PageNotFoundComp />,
       },
+     
     ],
   },
 ]);
@@ -97,7 +97,7 @@ const router = createBrowserRouter([
 ReactDOM.createRoot(document.getElementById("root")).render(
   <Provider store={store}>
     {/* <React.StrictMode> */}
-      <RouterProvider router={router} />
+    <RouterProvider router={router} />
     {/* </React.StrictMode> */}
   </Provider>
 );

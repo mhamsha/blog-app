@@ -5,13 +5,18 @@ import { useForm } from "react-hook-form";
 import appwriteAuthService from "../appwrite/appwriteAuth.js";
 import { login } from "../features/authSlice.js";
 import { useDispatch } from "react-redux";
+import { Turnstile } from "@marsidev/react-turnstile";
 
 function LoginComp() {
+  const [isAllowed, setIsAllowed] = useState(true);
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [error, setError] = useState("");
   const { register, handleSubmit } = useForm();
 
+  const handleSuccessTurnstile = () => {
+    setIsAllowed(false);
+  };
   const loginFunc = async (data) => {
     setError("");
     try {
@@ -27,7 +32,6 @@ function LoginComp() {
       setError(error.message);
     }
   };
-
   const loginWithGithub = async () => {
     try {
       appwriteAuthService.githubLogin();
@@ -69,7 +73,28 @@ function LoginComp() {
                 required: true,
               })}
             />
-            <ButtonComp bgColor="bg-blue-500" textColor="text-white" type="submit">
+            <div className="flex justify-center">
+              <Turnstile
+                siteKey="0x4AAAAAAAee5Pza3VCJ4CE2"
+                onSuccess={(response) => {
+                  if (response) handleSuccessTurnstile();
+                }}
+                onError={(error) => {
+                  if (error);
+                }}
+                options={{
+                  action: "submit-form",
+                  theme: "light",
+                  size: "normal",
+                }}
+              />
+            </div>
+            <ButtonComp
+              bgColor="bg-blue-500"
+              textColor="text-white"
+              type="submit"
+              disabled={isAllowed}
+            >
               Log In
             </ButtonComp>
           </div>
