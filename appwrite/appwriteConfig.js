@@ -11,7 +11,17 @@ class ConfigService {
     this.storage = new Storage(this.client);
   }
   // * Create Post Method
-  async createPost({ title, slug, content, status, featuredImage, userID, quesPara, hashTags }) {
+  async createPost({
+    title,
+    slug,
+    content,
+    status,
+    featuredImage,
+    userID,
+    quesPara,
+    hashTags,
+    author,
+  }) {
     try {
       return await this.databases.createDocument(
         conf.appwriteDatabaseID,
@@ -25,6 +35,7 @@ class ConfigService {
           userID,
           quesPara,
           hashTags,
+          author,
         }
       );
     } catch (error) {
@@ -65,13 +76,12 @@ class ConfigService {
     }
   }
   // * Get All Posts Method
-  // queries = [Query.equal("status", "active")]
-  async getAllPost() {
+  async getAllPost(queries = []) {
     try {
       const allPosts = await this.databases.listDocuments(
         conf.appwriteDatabaseID,
         conf.appwriteCollectionID,
-        // queries
+        queries
       );
       return allPosts;
     } catch (error) {
@@ -109,6 +119,7 @@ class ConfigService {
       return false;
     }
   }
+  //* Delete File Method storage
   async deleteFile(fileId) {
     try {
       await this.storage.deleteFile(conf.appwriteBucketID, fileId);

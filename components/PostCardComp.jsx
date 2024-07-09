@@ -3,7 +3,16 @@ import { Link } from "react-router-dom";
 import appwriteConfigService from "../appwrite/appwriteConfig";
 import { ButtonComp } from ".";
 
-export default function PostCardComp({ $id, title, featuredImage, quesPara, hashTags }) {
+export default function PostCardComp({
+  $id,
+  title,
+  featuredImage,
+  quesPara,
+  hashTags,
+  $createdAt,
+  author,
+}) {
+  const postCreationData = new Date($createdAt).toLocaleDateString("en-GB");
   // * converting hashTags string to array
   const hashTagsArray = hashTags
     .trim()
@@ -12,12 +21,19 @@ export default function PostCardComp({ $id, title, featuredImage, quesPara, hash
     .filter((tag) => tag);
   return (
     <Link to={`/post/${$id}`}>
-      <div className="flex flex-col rounded-lg border m-2 bg-gray-300 transition-all duration-300 ease-in-out hover:shadow-lg">
-        <img
-          src={appwriteConfigService.getFilePreview(featuredImage)}
-          alt={title}
-          className="h-[200px] w-full rounded-t-lg object-cover"
-        />
+      <div className="flex flex-col rounded-lg border m-2 bg-gray-300 transition-all duration-300 ease-in-out hover:shadow-lg ">
+        <div className="relative group ">
+          <img
+            src={appwriteConfigService.getFilePreview(featuredImage)}
+            alt={title}
+            className="h-[200px] w-full rounded-t-lg object-cover opacity-95 hover:opacity-100 transition-opacity duration-500 ease-in-out"
+          />
+          <footer className="absolute bottom-0 left-0 right-0 bg-gray-900 bg-opacity-80 text-white text-xs p-2 rounded-b-sm transition-opacity duration-500 opacity-70 sm:opacity-0 group-hover:opacity-100 ease-in-out flex justify-between ">
+            <span>{`${postCreationData}`}</span>
+            <span>{`${author}`}</span>
+          </footer>
+        </div>
+
         <div className="p-4 ">
           <h1 className="inline-flex items-center text-lg title  max-sm:block max-sm:max-h-none max-sm:overflow-visible max-sm:text-overflow-clip max-sm:whitespace-normal">
             {title}
@@ -53,10 +69,11 @@ export default function PostCardComp({ $id, title, featuredImage, quesPara, hash
           </div>
 
           <ButtonComp
-            bgColor="bg-gray-400"
+            bgColor="sm:bg-gray-400"
             textColor="text-white"
-            hover="hover:bg-gray-500"
-            className="mt-3  "
+            
+            hover="sm:hover:bg-gray-500"
+            className="mt-3 bg-gray-600 "
           >
             Read
           </ButtonComp>
