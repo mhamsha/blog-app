@@ -1,11 +1,11 @@
+/* eslint-disable react/prop-types */
 import { quantum } from "ldrs";
 
-function LoaderComp() {
-  quantum.register();
-
+quantum.register();
+function LoaderComp({ height = "h-[50vh]", size = "100" }) {
   return (
-    <div className="w-full h-[50vh] flex items-center justify-center ">
-      <l-quantum size="100" speed="1.2" color="black" />
+    <div className={`w-full ${height} flex items-center justify-center `}>
+      <l-quantum size={size} speed="1.2" color="black" />
     </div>
   );
 }

@@ -10,12 +10,14 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@mantine/hooks": "^7.11.1",
     "@marsidev/react-turnstile": "^0.7.1",
     "@reduxjs/toolkit": "^2.2.5",
     "@tinymce/tinymce-react": "^5.1.1",
     "appwrite": "^15.0.0",
     "html-react-parser": "^5.1.10",
     "ldrs": "^1.0.2",
+    "lodash": "^4.17.21",
     "lucide-react": "^0.399.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
