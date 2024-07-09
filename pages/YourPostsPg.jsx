@@ -34,7 +34,7 @@ function YourPostPg() {
   useEffect(() => {
     // console.log("initial data fetching");
     const fetchInitialData = async () => {
-      if (userPostsStore.length < 1) {
+      if (userPostsStore.length === 0) {
         setIsLoading(true);
         const page = await appwriteConfigService.getAllPost([
           Query.equal("userID", userData.$id),

@@ -34,7 +34,7 @@ function HomeFeedPg() {
   useEffect(() => {
     // console.log("initial data fetching");
     const fetchInitialData = async () => {
-      if (allPostsStore.length < 1) {
+      if (allPostsStore.length == 0) {
         setIsLoading(true)
         const page = await appwriteConfigService.getAllPost([
           Query.equal("status", "active"),

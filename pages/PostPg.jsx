@@ -58,7 +58,7 @@ export default function PostPg() {
     appwriteConfigService.deletePost(currentPost?.$id).then((status) => {
       if (status) {
         dispatch(deletePostRed(currentPost?.$id));
-        navigate("/your-posts");
+        navigate("/");
       }
     });
   };
