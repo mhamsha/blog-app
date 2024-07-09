@@ -12,7 +12,7 @@ function PostFormComp({ post }) {
   const [rteLoading, setRteLoading] = useState(true);
   setTimeout(() => {
     setRteLoading(false);
-  }, 1000);
+  }, 2000);
   const [isFileSelected, setIsFileSelected] = useState(false);
 
   const handleFileChange = (e) => {

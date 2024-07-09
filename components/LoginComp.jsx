@@ -66,7 +66,7 @@ function LoginComp() {
             <InputComp
               type="email"
               label="Email: "
-              placeholder="Email Address" 
+              placeholder="Email Address"
               {...register("email", {
                 required: "Email is required",
               })}
@@ -91,7 +91,7 @@ function LoginComp() {
                   if (response) handleSuccessTurnstile();
                 }}
                 onError={(error) => {
-                  if (error);
+                  if (error) handleSuccessTurnstile();
                 }}
                 options={{
                   action: "submit-form",
