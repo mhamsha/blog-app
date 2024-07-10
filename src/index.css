@@ -2,18 +2,35 @@
 @tailwind components;
 @tailwind utilities;
 
-.title, .description {
-    display: -webkit-box;
-    -webkit-line-clamp: 1;
-    -webkit-box-orient: vertical;  
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: normal;
-    max-height: 4.4em; /* Adjust based on your line-height to fit exactly two lines */
-    transition: max-height 0.3s ease;
-  }
-  
-  .title:hover, .description:hover {
-    -webkit-line-clamp: unset;
-    max-height: none;
-  }
+.title,
+.description {
+  display: -webkit-box;
+  -webkit-line-clamp: 1;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: normal;
+  max-height: 4.4em; /* Adjust based on your line-height to fit exactly two lines */
+  transition: max-height 0.3s ease;
+}
+
+.title:hover,
+.description:hover {
+  -webkit-line-clamp: unset;
+  max-height: none;
+}
+.dark-bg {
+  background-image: url("../public/assets/images/dark-background.jpg");
+  background-size: cover;
+  background-position: center;
+}
+.optionSelect {
+  color: white; /* Text color */
+  background-color: black; /* Background color */
+}
+.rte-loading {
+  visibility: hidden;
+  height: 0;
+  overflow: hidden;
+  transition: all;
+}

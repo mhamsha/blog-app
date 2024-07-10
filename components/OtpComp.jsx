@@ -20,13 +20,16 @@ function OtpComp() {
 
   // * Formatted email address
   const formattedEmail = `${userData?.email.slice(0, 2)}*****@${userData?.email.substring(
-    userData?.email.indexOf("@") + 1
+    userData?.email.indexOf("@") + 1,
   )}`;
 
   const [otpTokenData, setOtpTokenData] = useState(null);
   // * Function to request OTP token
   const otpRequest = async () => {
-    appwriteAuthService.createOtpToken(userData.email).then(setOtpTokenData).catch(console.error);
+    appwriteAuthService
+      .createOtpToken(userData.email)
+      .then(setOtpTokenData)
+      .catch(console.error);
   };
 
   const [isEmailPage, setIsEmailPage] = useState(true);
@@ -39,7 +42,9 @@ function OtpComp() {
         await otpRequest();
         setIsEmailPage(false);
       } else {
-        setIsError("Email address does not match with the registered email address");
+        setIsError(
+          "Email address does not match with the registered email address",
+        );
         const errorTimeout = setTimeout(() => {
           setIsError(false);
         }, 3000);
@@ -55,7 +60,7 @@ function OtpComp() {
         if (formData.otp && otpTokenData?.userId && isDeleteSession) {
           const sessionResponse = await appwriteAuthService.createOtpSession(
             otpTokenData.userId,
-            formData.otp
+            formData.otp,
           );
           if (sessionResponse) {
             appwriteAuthService.getCurrentUser().then((user) => {
@@ -82,7 +87,7 @@ function OtpComp() {
   // * Popup to confirm the OTP entered by the user
   const handleVerifyClick = (formData) => {
     const isConfirmed = window.confirm(
-      "Please double-check your OTP, If you write wrong OTP, you have to Login again.\nIf you don't get the OTP, you can resend it."
+      "Please double-check your OTP, If you write wrong OTP, you have to Login again.\nIf you don't get the OTP, you can resend it.",
     );
     if (isConfirmed) {
       submitFunc(formData);
@@ -112,20 +117,22 @@ function OtpComp() {
   return (
     //  * If the email page is true, then the user will be asked to enter the email address and chages the page to OTP page
     <ContainerComp>
-      <main className="relative min-[70vh] flex flex-col justify-center overflow-hidden">
-        <div className="w-full max-w-6xl mx-auto px-4 md:px-6 py-24 ">
-          <div className="flex justify-center ">
-            <div className="max-w-md mx-auto text-center bg-slate-100 px-4 sm:px-8 py-10 rounded-xl shadow ">
+      <main className="min-[70vh] relative flex flex-col justify-center overflow-hidden">
+        <div className="mx-auto w-full max-w-6xl px-4 py-24 md:px-6">
+          <div className="flex justify-center">
+            <div className="mx-auto max-w-md rounded-xl bg-gray-200 px-4 py-10 text-center shadow dark:bg-[#1e1e1e] sm:px-8">
               {/* // * Contains Heading, paragraph and error message */}
               <header className="mb-8">
-                <h1 className="text-2xl font-bold mb-1">Email Verification</h1>
-                <p className="text-[15px]  text-slate-500 ">
+                <h1 className="mb-1 text-2xl font-bold dark:text-gray-300">
+                  Email Verification
+                </h1>
+                <p className="text-[15px] text-slate-500 dark:text-gray-400">
                   {!isEmailPage
                     ? ` We have sent a 6-digit code to your email ${formattedEmail}`
                     : `Please Enter a ${formattedEmail} , we'll send a 6-digit code to your email address.`}
                 </p>
                 {isError || errors.email || errors.otp ? (
-                  <p className="text-red-600 mt-2 text-center">
+                  <p className="mt-2 text-center text-red-600">
                     {isError || errors.email?.message || errors.otp?.message}
                   </p>
                 ) : (
@@ -134,14 +141,18 @@ function OtpComp() {
               </header>
               {/* // * Contains Input fields (email and otp) */}
               <form
-                onSubmit={isEmailPage ? handleSubmit(submitFunc) : handleSubmit(handleVerifyClick)}
+                onSubmit={
+                  isEmailPage
+                    ? handleSubmit(submitFunc)
+                    : handleSubmit(handleVerifyClick)
+                }
               >
                 <div className="flex items-center justify-center gap-3">
                   {!isEmailPage ? (
                     <InputComp
                       type="number"
                       placeholder="Enter Code"
-                      className="w-8 h-8 text-center text-2xl  font-bold t text-slate-900 bg-slate-100 border border-indigo-400 hover:border-slate-200 appearance-none rounded p-4 outline-none focus:bg-white focus:border-indigo-600 focus:ring-2 focus:ring-indigo-100"
+                      className="t h-8 w-8 appearance-none rounded border border-indigo-400 bg-slate-100 p-4 text-center text-2xl font-bold text-slate-900 outline-none hover:border-slate-200 focus:border-indigo-600 focus:bg-white focus:ring-2 focus:ring-indigo-100"
                       {...register("otp", {
                         required: true,
                         pattern: {
@@ -154,19 +165,20 @@ function OtpComp() {
                     <InputComp
                       type="email"
                       placeholder="Enter Your Valid Email Address"
-                      className="w-8 h-8 text-center sm:text-xl text-md  sm:font-semibold  text-slate-900 bg-slate-100 border border-indigo-400 hover:border-slate-200 appearance-none rounded p-4 outline-none focus:bg-white focus:border-indigo-600 focus:ring-2 focus:ring-indigo-100"
+                      className="text-md h-8 w-8 appearance-none rounded border border-indigo-400 bg-slate-100 p-4 text-center text-slate-900 outline-none hover:border-slate-200 focus:border-indigo-600 focus:bg-white focus:ring-2 focus:ring-indigo-100 sm:text-xl sm:font-semibold"
                       {...register("email", {
                         required: true,
                         validate: {
                           matchPatern: (value) =>
-                            /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/.test(value) ||
-                            "Email address must be a valid address",
+                            /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/.test(
+                              value,
+                            ) || "Email address must be a valid address",
                         },
                       })}
                     />
                   )}
                 </div>
-                <div className="max-w-[260px] mx-auto mt-4">
+                <div className="mx-auto mt-4 max-w-[260px]">
                   {!isEmailPage ? (
                     <ButtonComp type="submit">Verify Account</ButtonComp>
                   ) : (
@@ -176,7 +188,7 @@ function OtpComp() {
               </form>
               {/* //* contains resend button functionality*/}
               {!isEmailPage ? (
-                <div className="text-sm text-slate-500 mt-4">
+                <div className="mt-4 text-sm text-slate-500">
                   Didn&apos;t receive code?{" "}
                   {isLinkDisabled ? (
                     <span className="font-medium text-indigo-500">{`Please wait ${timer} seconds`}</span>

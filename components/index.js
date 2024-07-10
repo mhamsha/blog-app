@@ -14,6 +14,7 @@ import PostCardComp from "./PostCardComp";
 import PageNotFoundComp from "./PageNotFoundComp";
 import LoaderComp from "./LoaderComp";
 import OtpComp from "./OtpComp";
+import TogglerComp from "./TogglerComp";
 
 export {
   HeaderComp,
@@ -31,5 +32,6 @@ export {
   PostFormComp,
   PageNotFoundComp,
   LoaderComp,
-  OtpComp
+  OtpComp,
+  TogglerComp,
 };

@@ -3,11 +3,22 @@
 import { Editor } from "@tinymce/tinymce-react";
 import { Controller } from "react-hook-form";
 import conf from "../conf/conf";
-function RteComp({ defaultValue, control, UniqueName, label = "Content", rulesGiven }) {
+import { useSelector } from "react-redux";
+function RteComp({
+  defaultValue,
+  control,
+  UniqueName,
+  label = "Content",
+  rulesGiven,
+}) {
+  const isDarkMode = useSelector((state) => state.ui.isDarkMode);
+  console.log("rendered");
+  console.log(isDarkMode);
   return (
     <>
-      {label && <label className="inline-block mb-1 pl-1">{label}</label>}
+      {label && <label className="mb-1 inline-block pl-1">{label}</label>}
       <Controller
+        key={isDarkMode ? "dark" : "light"}
         control={control}
         name={UniqueName || "content"}
         rules={rulesGiven}
@@ -20,6 +31,8 @@ function RteComp({ defaultValue, control, UniqueName, label = "Content", rulesGi
               init={{
                 height: 500,
                 menubar: true,
+                skin: isDarkMode ? "oxide-dark" : "oxide",
+                content_css: isDarkMode ? "dark" : "default",
                 plugins: [
                   "advlist",
                   "autolink",
@@ -45,7 +58,8 @@ function RteComp({ defaultValue, control, UniqueName, label = "Content", rulesGi
                   "bold italic forecolor | alignleft aligncenter " +
                   "alignright alignjustify | bullist numlist outdent indent | " +
                   "removeformat | help",
-                content_style: "body { font-family:Helvetica,Arial,sans-serif; font-size:14px }",
+                content_style:
+                  "body { font-family:Helvetica,Arial,sans-serif; font-size:14px }",
               }}
               onEditorChange={onChange}
             />

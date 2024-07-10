@@ -1,22 +1,35 @@
 /* eslint-disable react/prop-types */
 import { useEffect, useState } from "react";
-import { InputComp, RteComp, SelectComp, ButtonComp, LoaderComp } from "../components/index";
+import {
+  InputComp,
+  RteComp,
+  SelectComp,
+  ButtonComp,
+  LoaderComp,
+} from "../components/index";
 import { useForm, useWatch } from "react-hook-form";
 import appwriteConfigService from "../appwrite/appwriteConfig";
 import { useSelector, useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { allPostsRed, currentPostRed, editPostRed, userPostsRed } from "../features/postSlice";
+import {
+  allPostsRed,
+  currentPostRed,
+  editPostRed,
+  userPostsRed,
+} from "../features/postSlice";
 
 function PostFormComp({ post }) {
   const [isLoading, setIsLoading] = useState(false);
+  const [isFileSelected, setIsFileSelected] = useState(false);
   const [rteLoading, setRteLoading] = useState(true);
   setTimeout(() => {
     setRteLoading(false);
   }, 2000);
-  const [isFileSelected, setIsFileSelected] = useState(false);
 
   const handleFileChange = (e) => {
-    e.currentTarget.files.length > 0 ? setIsFileSelected(true) : setIsFileSelected(false);
+    e.currentTarget.files.length > 0
+      ? setIsFileSelected(true)
+      : setIsFileSelected(false);
   };
   const dispatch = useDispatch();
   const allPostsStore = useSelector((state) => state.post.posts);
@@ -92,7 +105,9 @@ function PostFormComp({ post }) {
     }
     // * If post is not available then create the post
     else {
-      const imageUpload = await appwriteConfigService.uploadFile(data.featuredImage[0]);
+      const imageUpload = await appwriteConfigService.uploadFile(
+        data.featuredImage[0],
+      );
       if (imageUpload) {
         const postCreated = await appwriteConfigService.createPost({
           ...data,
@@ -104,7 +119,12 @@ function PostFormComp({ post }) {
           const allPostsStoreUpdated = [postCreated, ...allPostsStore];
           const userPostsStoreUpdated = [postCreated, ...userPostsStore];
           dispatch(allPostsRed({ posts: allPostsStoreUpdated, status: true }));
-          dispatch(userPostsRed({ userPosts: userPostsStoreUpdated, userPostsStatus: true }));
+          dispatch(
+            userPostsRed({
+              userPosts: userPostsStoreUpdated,
+              userPostsStatus: true,
+            }),
+          );
           dispatch(currentPostRed(postCreated));
           setIsLoading(false);
           navigate(`/post/${postCreated.$id}`);
@@ -118,8 +138,11 @@ function PostFormComp({ post }) {
     return <LoaderComp />;
   }
   return (
-    <form onSubmit={handleSubmit(submitFunc)} className="flex flex-wrap bg-slate-200">
-      <div className="md:w-2/3  p-2">
+    <form
+      onSubmit={handleSubmit(submitFunc)}
+      className="flex flex-wrap bg-slate-200 dark:bg-transparent"
+    >
+      <div className="p-2 md:w-2/3">
         {errors.title && <p className="text-red-500">{errors.title.message}</p>}
         <InputComp
           type="text"
@@ -143,11 +166,15 @@ function PostFormComp({ post }) {
           {...register("slug", { required: true })}
           onInput={(e) => {
             // console.log(e.currentTarget.value);
-            setValue("slug", slugTransfrom(e.currentTarget.value), { shouldValidate: true });
+            setValue("slug", slugTransfrom(e.currentTarget.value), {
+              shouldValidate: true,
+            });
           }}
         />
 
-        {errors.quesPara && <p className="text-red-500">{errors.quesPara.message}</p>}
+        {errors.quesPara && (
+          <p className="text-red-500">{errors.quesPara.message}</p>
+        )}
         <InputComp
           type="text"
           placeholder="Question Paragraph"
@@ -157,12 +184,15 @@ function PostFormComp({ post }) {
             required: "sub Title is required",
             pattern: {
               value: /^[A-Za-z\s-_?]{1,100}$/,
-              message: "Sub Title must be 1-100 characters long and contain only letters",
+              message:
+                "Sub Title must be 1-100 characters long and contain only letters",
             },
           })}
         />
 
-        {errors.hashTags && <p className="text-red-500">{errors.hashTags.message}</p>}
+        {errors.hashTags && (
+          <p className="text-red-500">{errors.hashTags.message}</p>
+        )}
         <InputComp
           type="text"
           placeholder="#Tags"
@@ -172,18 +202,34 @@ function PostFormComp({ post }) {
             required: "Tags are required",
             pattern: {
               value: /^[A-Za-z\s#]{1,100}$/,
-              message: "Tags must be 1-100 characters long and contain only letters",
+              message:
+                "Tags must be 1-100 characters long and contain only letters",
             },
           })}
         />
 
-        {errors.content && <p className="text-red-500">{errors.content.message}</p>}
-        {rteLoading ? (
-          <LoaderComp />
-        ) : (
+        {errors.content && (
+          <p className="text-red-500">{errors.content.message}</p>
+        )}
+
+        {/* <RteComp
+          defaultValue={post?.content || ""}
+          // defaultValue={getValues("content")}
+          control={control}
+          UniqueName="content"
+          label="Content"
+          rulesGiven={{
+            required: "Content is required",
+            maxLength: {
+              value: 3000,
+              message:
+                "Content must under 1-3000 characters not words of  text and numbers",
+            },
+          }}
+        /> */}
+        <div className={rteLoading ? "rte-loading" : ""}>
           <RteComp
             defaultValue={post?.content || ""}
-            // defaultValue={getValues("content")}
             control={control}
             UniqueName="content"
             label="Content"
@@ -191,17 +237,23 @@ function PostFormComp({ post }) {
               required: "Content is required",
               maxLength: {
                 value: 3000,
-                message: "Content must under 1-3000 characters not words of  text and numbers",
+                message:
+                  "Content must under 1-3000 characters not words of text and numbers",
               },
             }}
-
-            // errors={errors.content}
           />
+        </div>
+        {rteLoading && (
+          <div>
+            <LoaderComp height="h-[41vh]" />
+          </div>
         )}
       </div>
 
-      <div className="md:w-1/3  p-2">
-        {errors.featuredImage && <p className="text-red-500">{errors.featuredImage.message}</p>}
+      <div className="p-2 md:w-1/3">
+        {errors.featuredImage && (
+          <p className="text-red-500">{errors.featuredImage.message}</p>
+        )}
         <InputComp
           type="file"
           label="Featured Image"
@@ -213,7 +265,7 @@ function PostFormComp({ post }) {
           })}
         />
         {post && !isFileSelected && (
-          <div className="w-full mb-4">
+          <div className="mb-4 w-full">
             <img
               // eslint-disable-next-line react/prop-types
               src={appwriteConfigService.getFilePreview(post?.featuredImage)}
@@ -228,7 +280,12 @@ function PostFormComp({ post }) {
           className="mb-4"
           {...register("status", { required: true })}
         />
-        <ButtonComp type="submit">{post ? "Update Post" : "Create Post"}</ButtonComp>
+        <ButtonComp
+          type="submit"
+          className="dark:bg-blue-800 dark:text-white dark:hover:bg-blue-700"
+        >
+          {post ? "Update Post" : "Create Post"}
+        </ButtonComp>
       </div>
     </form>
   );

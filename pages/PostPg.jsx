@@ -21,9 +21,10 @@ export default function PostPg() {
       allPostsStore: posts,
       userData: data,
       currentPost: currPost,
-    })
+    }),
   );
-  const { allPostsStore, userData, currentPost } = useSelector(postInfoSelector);
+  const { allPostsStore, userData, currentPost } =
+    useSelector(postInfoSelector);
   const [isAuthor, setIsAuthor] = useState(false);
 
   useEffect(() => {
@@ -63,19 +64,23 @@ export default function PostPg() {
     });
   };
 
-  const postCreationData = new Date(currentPost?.$createdAt).toLocaleDateString("en-GB");
+  const postCreationData = new Date(currentPost?.$createdAt).toLocaleDateString(
+    "en-GB",
+  );
 
-  if(isLoading) return <LoaderComp />;
+  if (isLoading) return <LoaderComp />;
   return currentPost ? (
     <div className="p-6">
       <ContainerComp>
-        <div className=" w-full flex justify-center mb-4 relative border rounded-xl ">
+        <div className="relative mb-4 flex w-full justify-center rounded-xl border">
           <img
-            src={appwriteConfigService.getFilePreview(currentPost?.featuredImage)}
+            src={appwriteConfigService.getFilePreview(
+              currentPost?.featuredImage,
+            )}
             alt={currentPost?.title}
-            className=" h-80 sm:h-96 md:h-[70vh]  w-full rounded-lg opacity-95 hover:opacity-100 transition-opacity duration-500 ease-in-out"
+            className="h-80 w-full rounded-lg opacity-95 transition-opacity duration-500 ease-in-out hover:opacity-100 dark:opacity-100 dark:brightness-75 dark:filter sm:h-96 md:h-[70vh]"
           />
-          <footer className="absolute bottom-0 left-0 right-0 bg-gray-900 bg-opacity-80 text-white text-xs md:text-lg lg:text-3xl p-2 rounded-b-lg transition-opacity duration-500 opacity-70 group-hover:opacity-100 ease-in-out flex justify-between ">
+          <footer className="absolute -bottom-1 -left-1 -right-1 flex justify-between rounded-b-lg bg-gray-900 bg-opacity-80 p-2 text-xs text-white opacity-70 transition-opacity duration-500 ease-in-out group-hover:opacity-100 md:text-lg lg:text-3xl">
             <span>{`${postCreationData}`}</span>
             <span>{`${currentPost?.author}`}</span>
           </footer>
@@ -88,7 +93,7 @@ export default function PostPg() {
               <ButtonComp
                 bgColor="bg-red-500"
                 hover="hover:bg-red-600"
-                className="mt-2 flex flex-auto "
+                className="mt-2 flex flex-auto"
                 onClick={deletePost}
               >
                 Delete
@@ -97,13 +102,15 @@ export default function PostPg() {
           )}
           {/* </div> */}
         </div>
-        <div className="w-full my-6">
-          <h1 className="text-2xl sm:text-2xl md:text-4xl lg:text-6xl font-bold text-center">
+        <div className="my-6 w-full">
+          <h1 className="text-center text-2xl font-bold dark:text-gray-200 sm:text-2xl md:text-4xl lg:text-6xl">
             {currentPost?.title}
           </h1>
         </div>
-        <div className="browser-css md:text-3xl lg:text-6xl">{parse(currentPost?.content)}</div>
+        <div className="browser-css dark:text-gray-300 md:text-3xl lg:text-6xl">
+          {parse(currentPost?.content)}
+        </div>
       </ContainerComp>
     </div>
-  ) : null
+  ) : null;
 }

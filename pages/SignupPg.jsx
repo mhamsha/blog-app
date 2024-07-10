@@ -1,5 +1,4 @@
-
-import { ContainerComp,SignupComp } from "../components";
+import { ContainerComp, SignupComp } from "../components";
 
 function SignupPg() {
   return (
