@@ -106,7 +106,7 @@ function YourPostPg() {
     return (
       <div className="mt-4 w-full py-8 text-center">
         <ContainerComp>
-          <h1 className="text-2xl font-bold">No posts found</h1>
+          <h1 className="text-2xl font-bold dark:text-white">No posts found</h1>
         </ContainerComp>
       </div>
     );
