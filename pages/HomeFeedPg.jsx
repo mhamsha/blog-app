@@ -18,16 +18,19 @@ function HomeFeedPg() {
     (data, stat) => {
       dispatch(allPostsRed({ posts: data, status: stat }));
     },
-    [dispatch]
+    [dispatch],
   );
 
   // * useSelector
   const postStatusSelector = (state) => state.post.status;
   const postsSelector = (state) => state.post.posts;
-  const postInfoSelector = createSelector([postStatusSelector, postsSelector], (status, posts) => ({
-    isAllPostsStore: status,
-    allPostsStore: posts,
-  }));
+  const postInfoSelector = createSelector(
+    [postStatusSelector, postsSelector],
+    (status, posts) => ({
+      isAllPostsStore: status,
+      allPostsStore: posts,
+    }),
+  );
   const { isAllPostsStore, allPostsStore } = useSelector(postInfoSelector);
 
   // * fetch data from appwrite and dispatch to store on initial render for the all Posts
@@ -35,7 +38,7 @@ function HomeFeedPg() {
     // console.log("initial data fetching");
     const fetchInitialData = async () => {
       if (allPostsStore.length == 0) {
-        setIsLoading(true)
+        setIsLoading(true);
         const page = await appwriteConfigService.getAllPost([
           Query.equal("status", "active"),
           Query.limit(6),
@@ -46,7 +49,7 @@ function HomeFeedPg() {
           totalItems = page.total;
           handleDispatch(page.documents, true);
         }
-        setIsLoading(false)
+        setIsLoading(false);
       }
     };
     fetchInitialData();
@@ -104,7 +107,7 @@ function HomeFeedPg() {
   // * if data is not fetched yet
   if (!isAllPostsStore) {
     return (
-      <div className="w-full py-8 mt-4 text-center">
+      <div className="mt-4 w-full py-8 text-center">
         <ContainerComp>
           <LoaderComp />
         </ContainerComp>
@@ -114,9 +117,10 @@ function HomeFeedPg() {
   // * if data is fetched
   return (
     <ContainerComp>
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
         {allPostsStore.map((post, index) => {
-          const isLastPost = index === allPostsStore.length - 1 && !isAllPostsLoaded;
+          const isLastPost =
+            index === allPostsStore.length - 1 && !isAllPostsLoaded;
           return post.status === "active" ? (
             <div
               key={post.$id}

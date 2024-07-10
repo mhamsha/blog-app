@@ -18,17 +18,20 @@ function YourPostPg() {
     (data, stat) => {
       dispatch(userPostsRed({ userPosts: data, userPostsStatus: stat }));
     },
-    [dispatch]
+    [dispatch],
   );
 
   // * useSelector
   const userPostsSelector = (state) => state.post.userPosts;
   const userDataSelector = (state) => state.auth.userData;
 
-  const postInfoSelector = createSelector([userPostsSelector, userDataSelector], (posts, data) => ({
-    userPostsStore: posts,
-    userData: data,
-  }));
+  const postInfoSelector = createSelector(
+    [userPostsSelector, userDataSelector],
+    (posts, data) => ({
+      userPostsStore: posts,
+      userData: data,
+    }),
+  );
   const { userPostsStore, userData } = useSelector(postInfoSelector);
   // * fetch data from appwrite and dispatch to store on initial render for the all Posts
   useEffect(() => {
@@ -92,7 +95,7 @@ function YourPostPg() {
   // * if data is not fetched yet
   if (userPostsStore.length < 1 && isLoading) {
     return (
-      <div className="w-full py-8 mt-4 text-center">
+      <div className="mt-4 w-full py-8 text-center">
         <ContainerComp>
           <LoaderComp />
         </ContainerComp>
@@ -101,7 +104,7 @@ function YourPostPg() {
   }
   if (userPostsStore.length == 0) {
     return (
-      <div className="w-full py-8 mt-4 text-center">
+      <div className="mt-4 w-full py-8 text-center">
         <ContainerComp>
           <h1 className="text-2xl font-bold">No posts found</h1>
         </ContainerComp>
@@ -111,9 +114,10 @@ function YourPostPg() {
   // * if data is fetched
   return (
     <ContainerComp>
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
         {userPostsStore?.map((post, index) => {
-          const isLastPost = index === userPostsStore.length - 1 && !isAllPostsLoaded;
+          const isLastPost =
+            index === userPostsStore.length - 1 && !isAllPostsLoaded;
           return (
             <div
               key={post.$id}

@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { InputComp, ButtonComp } from "./index.js";
+import { InputComp, ButtonComp,LoaderComp } from "./index.js";
 import { Link, useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import appwriteAuthService from "../appwrite/appwriteAuth.js";
@@ -7,10 +7,13 @@ import { login } from "../features/authSlice.js";
 import { useDispatch } from "react-redux";
 import { Turnstile } from "@marsidev/react-turnstile";
 import conf from "../conf/conf.js";
-
+import { useSelector } from "react-redux";
 
 function SignupComp() {
+  const isDarkMode = useSelector((state) => state.ui.isDarkMode);
   const [isAllowed, setIsAllowed] = useState(true);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [error, setError] = useState("");
@@ -24,17 +27,20 @@ function SignupComp() {
   const createFunc = async (data) => {
     setError("");
     try {
+      setIsSubmitting(true);
       const response = await appwriteAuthService.createAccount(data);
       if (response) {
         const userData = await appwriteAuthService.getCurrentUser();
         if (userData) {
           dispatch(login(userData));
           navigate("/");
+
         }
       }
     } catch (error) {
       setError(error.message);
     }
+    setIsSubmitting(false);
   };
   const loginWithGithub = async () => {
     try {
@@ -50,26 +56,30 @@ function SignupComp() {
     setIsAllowed(false);
   };
 
-  return (
-    <div className="flex items-center justify-center ">
+  return !isSubmitting ? (
+    <div className="flex items-center justify-center">
       <div
-        className={`mx-auto w-full max-w-lg bg-gray-200 rounded-xl p-10  border border-black/10`}
+        className={`mx-auto w-full max-w-lg rounded-xl border border-black/10 bg-gray-200 p-10 dark:bg-[#1e1e1e]`}
       >
-        <h2 className="text-center text-2xl font-bold leading-tight">Sign up to create account</h2>
-        <p className="my-2 text-center text-base text-black/60 ">
+        <h2 className="text-center text-2xl font-bold leading-tight dark:text-gray-300">
+          Sign up to create account
+        </h2>
+        <p className="my-2 text-center text-base text-black/60 dark:text-gray-300">
           Already have an account?&nbsp;
           <Link
             to="/login"
-            className="font-medium text-primary transition-all duration-200 hover:underline"
+            className="text-primary font-medium transition-all duration-200 hover:underline"
           >
             Sign In
           </Link>{" "}
         </p>
-        {error && <p className="text-red-600 mt-8 text-center">{error}</p>}
+        {error && <p className="mt-8 text-center text-red-600">{error}</p>}
 
         <form onSubmit={handleSubmit(createFunc)}>
           <div className="space-y-5">
-            {errors.name && <p className="text-red-600 mt-2">{errors.name.message}</p>}
+            {errors.name && (
+              <p className="mt-2 text-red-600">{errors.name.message}</p>
+            )}
             <InputComp
               type="text"
               label="Name: "
@@ -78,12 +88,14 @@ function SignupComp() {
                 required: "Name is required",
                 validate: {
                   matchPatern: (value) =>
-                   /^[A-Za-z ]{4,30}$/.test(value) ||
+                    /^[A-Za-z ]{4,30}$/.test(value) ||
                     "6-30 chars, no special chars, must start with a letter.",
                 },
               })}
             />
-            {errors.email && <p className="text-red-600 mt-2">{errors.email.message}</p>}
+            {errors.email && (
+              <p className="mt-2 text-red-600">{errors.email.message}</p>
+            )}
             <InputComp
               type="email"
               label="Email: "
@@ -97,7 +109,9 @@ function SignupComp() {
                 },
               })}
             />
-            {errors.password && <p className="text-red-600 mt-2">{errors.password.message}</p>}
+            {errors.password && (
+              <p className="mt-2 text-red-600">{errors.password.message}</p>
+            )}
             <InputComp
               type="password"
               label="Password: "
@@ -112,7 +126,9 @@ function SignupComp() {
               })}
             />
             {errors.repeat_password && (
-              <p className="text-red-600 mt-2">{errors.repeat_password.message}</p>
+              <p className="mt-2 text-red-600">
+                {errors.repeat_password.message}
+              </p>
             )}
             <InputComp
               type="password"
@@ -120,10 +136,12 @@ function SignupComp() {
               placeholder="Repeat Password"
               {...register("repeat_password", {
                 required: "Repeat Password is required",
-                validate: (value) => value === currentPassword || "The passwords do not match",
+                validate: (value) =>
+                  value === currentPassword || "The passwords do not match",
               })}
+              textColor="text-white"
             />
- 
+
             <div className="flex justify-center">
               <Turnstile
                 siteKey={conf.cloudFlareSiteKey}
@@ -131,11 +149,11 @@ function SignupComp() {
                   if (response) handleSuccessTurnstile();
                 }}
                 onError={(error) => {
-                  if (error);
+                  if (error) handleSuccessTurnstile();
                 }}
                 options={{
                   action: "submit-form",
-                  theme: "light",
+                  theme: isDarkMode ? "dark" : "light",
                   size: "normal",
                 }}
               />
@@ -144,6 +162,7 @@ function SignupComp() {
               bgColor="bg-blue-500"
               textColor="text-white"
               type="submit"
+              className="dark:bg-blue-700 dark:opacity-80 dark:hover:bg-blue-700 dark:hover:opacity-95"
               disabled={isAllowed}
             >
               Create Account
@@ -155,7 +174,7 @@ function SignupComp() {
           hover="hover:bg-gray-900"
           textColor="text-white"
           type="button"
-          className="flex items-center justify-center gap-x-2 mt-2 "
+          className="mt-2 flex items-center justify-center gap-x-2"
           onClick={loginWithGithub}
         >
           <svg
@@ -172,6 +191,8 @@ function SignupComp() {
         </ButtonComp>
       </div>
     </div>
+  ) : (
+    <LoaderComp />
   );
 }
 
