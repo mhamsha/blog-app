@@ -103,11 +103,11 @@ export default function PostPg() {
           {/* </div> */}
         </div>
         <div className="my-6 w-full">
-          <h1 className="text-center text-2xl font-bold dark:text-gray-200 sm:text-2xl md:text-4xl lg:text-6xl">
+          <h1 className="text-center text-lg font-bold dark:text-gray-200 sm:text-xl md:text-2xl lg:text-3xl xl:text-4xl 2xl:text-5xl">
             {currentPost?.title}
           </h1>
         </div>
-        <div className="browser-css dark:text-gray-300 md:text-3xl lg:text-6xl">
+        <div className="text-sm leading-normal dark:text-gray-300 sm:text-base sm:leading-relaxed md:text-lg md:leading-loose lg:text-xl xl:text-2xl 2xl:text-3xl">
           {parse(currentPost?.content)}
         </div>
       </ContainerComp>
