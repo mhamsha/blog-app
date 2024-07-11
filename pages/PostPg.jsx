@@ -78,7 +78,7 @@ export default function PostPg() {
               currentPost?.featuredImage,
             )}
             alt={currentPost?.title}
-            className="h-80 w-full rounded-lg opacity-95 transition-opacity duration-500 ease-in-out hover:opacity-100 dark:opacity-100 dark:brightness-75 dark:filter sm:h-96 md:h-[70vh]"
+            className="h-80 w-full rounded-lg opacity-95 transition-opacity duration-500 ease-in-out hover:opacity-100 dark:opacity-100 dark:brightness-75 dark:filter sm:h-96 md:h-[70vh] lg:h-[80vh]"
           />
           <footer className="absolute -bottom-1 -left-1 -right-1 flex justify-between rounded-b-lg bg-gray-900 bg-opacity-80 p-2 text-xs text-white opacity-70 transition-opacity duration-500 ease-in-out group-hover:opacity-100 md:text-lg lg:text-3xl">
             <span>{`${postCreationData}`}</span>

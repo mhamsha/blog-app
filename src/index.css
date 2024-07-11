@@ -20,7 +20,7 @@
   max-height: none;
 }
 .dark-bg {
-  background-image: url("../public/assets/images/dark-background.jpg");
+  background-image: url("../assets/images/dark-background.jpg");
   background-size: cover;
   background-position: center;
 }
