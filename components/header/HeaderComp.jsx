@@ -4,12 +4,37 @@ import { Link, useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { Menu, X } from "lucide-react";
 import { useClickOutside } from "@mantine/hooks";
-
+import { useEffect, useRef, useState } from "react";
+import gsap from "gsap";
 export default function HeaderComp() {
   const navigate = useNavigate();
   const authStatus = useSelector((state) => state.auth.status);
   const userData = useSelector((state) => state.auth.userData);
   const currentPage = window.location.pathname;
+  const [lastScrollY, setLastScrollY] = useState(window.scrollY);
+  const elementRef = useRef(null);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      const currentScrollY = window.scrollY;
+
+      if (currentScrollY > lastScrollY) {
+        // User is scrolling down
+        gsap.to(elementRef.current, { autoAlpha: 0, y: -100 });
+      } else {
+        // User is scrolling up
+        gsap.to(elementRef.current, { autoAlpha: 1, y: 0 });
+      }
+
+      setLastScrollY(currentScrollY);
+    };
+
+    window.addEventListener("scroll", handleScroll);
+
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, [lastScrollY]);
 
   // * menu item for header component
   const menuItems = [
@@ -51,10 +76,15 @@ export default function HeaderComp() {
   };
   // * click outside the menu to close it
   const refe = useClickOutside(() => {
-    toggleMenu();
+    setIsMenuOpen(false);
   });
+
   return (
-    <div className="relative w-full bg-white dark:bg-transparent dark:text-white">
+    <div
+      ref={elementRef}
+      style={{ top: "0", transition: " 0.3s easeInOut" }}
+      className="sticky z-10 w-full bg-white dark:bg-transparent dark:text-white dark:backdrop-blur-lg dark:backdrop-filter"
+    >
       <div className="mx-auto flex max-w-7xl items-center justify-between px-4 py-2 sm:px-6 lg:px-8">
         {/* logo */}
         <div className="inline-flex items-center space-x-2">
@@ -123,7 +153,7 @@ export default function HeaderComp() {
           )}
         </div>
         {/* dark mode toggler */}
-        <div className="m-3 hidden bg-white dark:bg-black sm:block">
+        <div className="m-3 hidden sm:block">
           <TogglerComp />
         </div>
 
@@ -131,105 +161,106 @@ export default function HeaderComp() {
           {/* hamburger icon for small devices */}
           <Menu onClick={toggleMenu} className="h-6 w-6 cursor-pointer" />
         </div>
-        {isMenuOpen && (
-          <div
-            ref={refe}
-            className="absolute inset-x-0 top-0 z-50 origin-top-right transform p-2 transition lg:hidden"
-          >
-            <div className="divide-y-2 divide-gray-50 rounded-lg bg-white shadow-lg ring-1 ring-black ring-opacity-5 dark:bg-black">
-              <div className="px-5 pb-6 pt-5">
-                <div className="flex items-center justify-between">
-                  {/* logo */}
-                  <div className="inline-flex items-center space-x-2">
-                    <span>{/* <svg> */}</span>
-                    <span className="font-bold">mhamsha</span>
-                  </div>
-                  {/* exit menu button */}
-                  <div className="-mr-2">
-                    <div className="mx-4 inline-flex bg-white dark:bg-black">
-                      <TogglerComp />
-                    </div>
-                    <button
-                      type="button"
-                      onClick={toggleMenu}
-                      className="inline-flex items-center justify-center rounded-md p-2 text-gray-400 hover:bg-gray-100 hover:text-gray-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-black"
-                    >
-                      <span className="sr-only">Close menu</span>
-                      <X className="h-6 w-6" aria-hidden="true" />
-                    </button>
-                  </div>
+        {/* {isMenuOpen && ( */}
+        <div
+          ref={refe}
+          // className={`absolute inset-x-0 top-0 z-50 origin-top-right transform p-2 transition-all duration-700 lg:hidden ${isMenuOpen ? "block" : "hidden"} `}
+          className={`absolute inset-x-0 top-0 z-50 origin-top-right transition-all duration-500 sm:hidden ${isMenuOpen ? "translate-y-0" : "-translate-y-full "}`}
+        >
+          <div className="divide-y-2 divide-gray-50 rounded-lg bg-white shadow-lg ring-1 ring-black ring-opacity-5 dark:bg-[#1e1e1e]">
+            <div className="px-5 pb-6 pt-5">
+              <div className="flex items-center justify-between">
+                {/* logo */}
+                <div className="inline-flex items-center space-x-2">
+                  <span>{/* <svg> */}</span>
+                  <span className="font-bold">mhamsha</span>
                 </div>
-                <div className="mt-6">
-                  {/* menu items for small devces */}
-                  <nav className="grid gap-y-4">
-                    {menuItems.map((item) => {
-                      const isActive = currentPage === item.slug;
-                      return item.active ? (
-                        <Link
-                          onClick={toggleMenu}
-                          key={item.name}
-                          to={item.slug}
-                          className="-m-3 flex items-center rounded-md p-3 text-sm font-semibold transition-all dark:text-neutral-400 dark:hover:text-slate-300"
-                        >
-                          <span
-                            className={`ml-3 text-base font-medium hover:text-gray-800 ${isActive ? "text-black dark:text-slate-300" : "text-gray-500 dark:text-neutral-400"} `}
-                          >
-                            {item.name}
-                          </span>
-                        </Link>
-                      ) : null;
-                    })}
-                  </nav>
+                {/* exit menu button */}
+                <div className="-mr-2">
+                  <div className="mx-4 inline-flex">
+                    <TogglerComp />
+                  </div>
+                  <button
+                    type="button"
+                    onClick={toggleMenu}
+                    className="inline-flex items-center justify-center rounded-md p-2 text-gray-400 hover:bg-gray-100 hover:text-gray-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-black"
+                  >
+                    <span className="sr-only">Close menu</span>
+                    <X className="h-6 w-6" aria-hidden="true" />
+                  </button>
                 </div>
-                {/* side menu items for small devices */}
-                <div className="mt-2 space-y-2">
-                  {sideMenuItems.map((item) => {
+              </div>
+              <div className="mt-6">
+                {/* menu items for small devces */}
+                <nav className="grid gap-y-4">
+                  {menuItems.map((item) => {
                     const isActive = currentPage === item.slug;
                     return item.active ? (
-                      <button
+                      <Link
+                        onClick={toggleMenu}
                         key={item.name}
-                        type="button"
-                        onClick={() => {
-                          navigate(item.slug);
-                          toggleMenu();
-                        }}
-                        className={`w-full rounded-md border border-black px-3 py-2 text-sm font-semibold text-black shadow-sm focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-black dark:border-gray-600 dark:bg-black dark:text-neutral-300 ${isActive ? "text-black dark:text-gray-200" : "text-gray-400 dark:text-gray-500"}`}
+                        to={item.slug}
+                        className="-m-3 flex items-center rounded-md p-3 text-sm font-semibold transition-all dark:text-neutral-400 dark:hover:text-slate-300"
                       >
-                        {item.name}
-                      </button>
+                        <span
+                          className={`ml-3 text-base font-medium hover:text-gray-800 ${isActive ? "text-black dark:text-slate-300" : "text-gray-500 dark:text-neutral-400"} `}
+                        >
+                          {item.name}
+                        </span>
+                      </Link>
                     ) : null;
                   })}
-                  {/* account verification button for small devices */}
-                  {authStatus && (
-                    <ButtonComp
+                </nav>
+              </div>
+              {/* side menu items for small devices */}
+              <div className="mt-2 space-y-2">
+                {sideMenuItems.map((item) => {
+                  const isActive = currentPage === item.slug;
+                  return item.active ? (
+                    <button
+                      key={item.name}
                       type="button"
                       onClick={() => {
-                        navigate("/account-verify");
+                        navigate(item.slug);
+                        toggleMenu();
                       }}
-                      className={`ml-2 px-1 py-1.5 text-sm ${
-                        userData.emailVerification
-                          ? "cursor-default bg-green-500 hover:bg-green-500 dark:opacity-85"
-                          : "bg-red-600 hover:bg-red-600 dark:opacity-85"
-                      }`}
-                      disabled={userData.emailVerification}
+                      className={`w-full rounded-md border border-black px-3 py-2 text-sm font-semibold text-black shadow-sm focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-black dark:border-gray-600 dark:bg-[#1e1e1e] dark:text-neutral-300 ${isActive ? "text-black dark:text-gray-700" : "text-gray-400 dark:text-white"}`}
                     >
-                      {userData.emailVerification
-                        ? "Account Verified"
-                        : "Verify Account"}
-                    </ButtonComp>
-                  )}
-                  {/* logout button for small devices */}
-                  {authStatus && (
-                    <LogoutBtnComp
-                      className="w-[40%] bg-red-600 text-white dark:opacity-85"
-                      hover=""
-                    />
-                  )}
-                </div>
+                      {item.name}
+                    </button>
+                  ) : null;
+                })}
+                {/* account verification button for small devices */}
+                {authStatus && (
+                  <ButtonComp
+                    type="button"
+                    onClick={() => {
+                      navigate("/account-verify");
+                    }}
+                    className={`ml-2 px-1 py-1.5 text-sm ${
+                      userData.emailVerification
+                        ? "cursor-default bg-green-500 hover:bg-green-500 dark:opacity-85"
+                        : "bg-red-600 hover:bg-red-600 dark:opacity-85"
+                    }`}
+                    disabled={userData.emailVerification}
+                  >
+                    {userData.emailVerification
+                      ? "Account Verified"
+                      : "Verify Account"}
+                  </ButtonComp>
+                )}
+                {/* logout button for small devices */}
+                {authStatus && (
+                  <LogoutBtnComp
+                    className="w-[40%] bg-red-600 text-white dark:opacity-85"
+                    hover=""
+                  />
+                )}
               </div>
             </div>
           </div>
-        )}
+        </div>
+        {/* )} */}
       </div>
     </div>
   );

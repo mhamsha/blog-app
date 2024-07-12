@@ -26,10 +26,12 @@ function App() {
 
   return loading ? (
     <div className={`${isDarkMode ? "dark-bg dark" : ""} min-h-screen w-full`}>
-      <LoaderComp height="h-[80vh]" />
+      <LoaderComp height="h-[85vh]" />
     </div>
   ) : (
-    <div className={`${isDarkMode ? "dark-bg dark" : ""} min-h-screen w-full`}>
+    <div
+      className={`${isDarkMode ? "dark-bg dark" : ""} min-h-screen w-full pb-16`}
+    >
       <HeaderComp />
       <main>
         <Outlet />

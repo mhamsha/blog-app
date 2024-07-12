@@ -12,7 +12,7 @@ const DarkModeToggler = () => {
       <Icon
         onClick={toggleModeHandler}
         icon={isDarkMode ? "circum:dark" : "iconamoon:mode-light"}
-        className="cursor-pointer text-3xl dark:text-white"
+        className="cursor-pointer bg-white text-3xl text-black dark:bg-[#1e1e1e] dark:text-white sm:dark:bg-transparent"
       />
     </div>
   );
