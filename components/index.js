@@ -15,7 +15,7 @@ import PageNotFoundComp from "./PageNotFoundComp";
 import LoaderComp from "./LoaderComp";
 import OtpComp from "./OtpComp";
 import TogglerComp from "./TogglerComp";
-
+import SearchComp from "./SearchComp";
 export {
   HeaderComp,
   FooterComp,
@@ -34,4 +34,5 @@ export {
   LoaderComp,
   OtpComp,
   TogglerComp,
+  SearchComp,
 };

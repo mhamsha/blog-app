@@ -1,4 +1,4 @@
-import { Client, Databases, Storage, ID } from "appwrite";
+import { Client, Databases, Storage, ID, Query } from "appwrite";
 import conf from "../conf/conf.js";
 
 class ConfigService {
@@ -6,7 +6,9 @@ class ConfigService {
   databases;
   storage;
   constructor() {
-    this.client.setEndpoint(conf.appwriteEndpoint).setProject(conf.appwriteProjectID);
+    this.client
+      .setEndpoint(conf.appwriteEndpoint)
+      .setProject(conf.appwriteProjectID);
     this.databases = new Databases(this.client);
     this.storage = new Storage(this.client);
   }
@@ -36,14 +38,17 @@ class ConfigService {
           quesPara,
           hashTags,
           author,
-        }
+        },
       );
     } catch (error) {
       console.log("Appwrite :: appwriteConfig :: createPost :: error", error);
     }
   }
   // * Update Post Method
-  async updatePost(slug, { title, content, featuredImage, status, quesPara, hashTags }) {
+  async updatePost(
+    slug,
+    { title, content, featuredImage, status, quesPara, hashTags },
+  ) {
     try {
       return await this.databases.updateDocument(
         conf.appwriteDatabaseID,
@@ -56,7 +61,7 @@ class ConfigService {
           featuredImage,
           quesPara,
           hashTags,
-        }
+        },
       );
     } catch (error) {
       console.log("Appwrite :: appwriteConfig :: updatePost :: error", error);
@@ -68,7 +73,7 @@ class ConfigService {
       return await this.databases.getDocument(
         conf.appwriteDatabaseID,
         conf.appwriteCollectionID,
-        slug
+        slug,
       );
     } catch (error) {
       console.log("Appwrite :: appwriteConfig :: getPost :: error", error);
@@ -81,7 +86,7 @@ class ConfigService {
       const allPosts = await this.databases.listDocuments(
         conf.appwriteDatabaseID,
         conf.appwriteCollectionID,
-        queries
+        queries,
       );
       return allPosts;
     } catch (error) {
@@ -92,7 +97,11 @@ class ConfigService {
   // * Delete Post Method
   async deletePost(slug) {
     try {
-      await this.databases.deleteDocument(conf.appwriteDatabaseID, conf.appwriteCollectionID, slug);
+      await this.databases.deleteDocument(
+        conf.appwriteDatabaseID,
+        conf.appwriteCollectionID,
+        slug,
+      );
       return true;
     } catch (error) {
       console.log("Appwrite :: appwriteConfig :: deletePost :: error", error);
@@ -105,7 +114,10 @@ class ConfigService {
     try {
       return this.storage.getFilePreview(conf.appwriteBucketID, fileID);
     } catch (error) {
-      console.log("Appwrite :: appwriteConfig :: getFilePreview :: error", error);
+      console.log(
+        "Appwrite :: appwriteConfig :: getFilePreview :: error",
+        error,
+      );
       return false;
     }
   }
@@ -113,7 +125,11 @@ class ConfigService {
   // * Upload File Method storage
   async uploadFile(file) {
     try {
-      return await this.storage.createFile(conf.appwriteBucketID, ID.unique(), file);
+      return await this.storage.createFile(
+        conf.appwriteBucketID,
+        ID.unique(),
+        file,
+      );
     } catch (error) {
       console.log("Appwrite :: appwriteConfig :: uploadFile :: error", error);
       return false;
