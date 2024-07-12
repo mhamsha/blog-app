@@ -72,15 +72,15 @@ export default function PostPg() {
   return currentPost ? (
     <div className="p-6">
       <ContainerComp>
-        <div className="relative mb-4 flex w-full justify-center rounded-xl border">
+        <div className="relative mb-4 flex w-full justify-center rounded-xl border-2 border-solid border-black dark:border-none">
           <img
             src={appwriteConfigService.getFilePreview(
               currentPost?.featuredImage,
             )}
             alt={currentPost?.title}
-            className="h-80 w-full rounded-lg opacity-95 transition-opacity duration-500 ease-in-out hover:opacity-100 dark:opacity-100 dark:brightness-75 dark:filter sm:h-96 md:h-[70vh] lg:h-[80vh]"
+            className="max-h-screen w-full rounded-lg object-cover opacity-95 transition-opacity duration-500 ease-in-out hover:opacity-100 dark:opacity-100 dark:brightness-75 dark:filter"
           />
-          <footer className="absolute -bottom-1 -left-1 -right-1 flex justify-between rounded-b-lg bg-gray-900 bg-opacity-80 p-2 text-xs text-white opacity-70 transition-opacity duration-500 ease-in-out group-hover:opacity-100 md:text-lg lg:text-3xl">
+          <footer className="absolute bottom-0 left-0 right-0 flex justify-between rounded-b-lg bg-gray-900 bg-opacity-80 p-2 text-xs text-white opacity-70 transition-opacity duration-500 ease-in-out group-hover:opacity-100 md:text-lg lg:text-3xl">
             <span>{`${postCreationData}`}</span>
             <span>{`${currentPost?.author}`}</span>
           </footer>
