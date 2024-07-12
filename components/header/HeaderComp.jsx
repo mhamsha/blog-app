@@ -1,8 +1,8 @@
 import React from "react";
-import { LogoutBtnComp, ButtonComp, TogglerComp } from "../index";
+import { LogoutBtnComp, ButtonComp, TogglerComp, SearchComp } from "../index";
 import { Link, useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
-import { Menu, X } from "lucide-react";
+import { Menu, X, Search } from "lucide-react";
 import { useClickOutside } from "@mantine/hooks";
 import { useEffect, useRef, useState } from "react";
 import gsap from "gsap";
@@ -92,7 +92,7 @@ export default function HeaderComp() {
           <span className="font-bold">mhamsha</span>
         </div>
         {/* menu items like HomeFeed,yourPosts for big devices */}
-        <div className="hidden grow items-start sm:flex">
+        <div className="hidden grow items-start lg:flex">
           <ul className="ml-12 inline-flex space-x-8">
             {menuItems.map((item) => {
               const isActive = currentPage === item.slug;
@@ -100,7 +100,7 @@ export default function HeaderComp() {
                 <li key={item.name}>
                   <Link
                     to={item.slug}
-                    className={`inline-flex items-center text-sm font-semibold transition-all hover:text-gray-900 dark:text-neutral-400 dark:hover:text-slate-300 ${isActive ? "text-black dark:text-slate-300" : "text-gray-500 dark:text-neutral-200"} `}
+                    className={`inline-flex min-w-max items-center text-sm font-semibold transition-all hover:text-gray-900 dark:text-neutral-400 dark:hover:text-slate-300 ${isActive ? "text-black dark:text-slate-300" : "text-gray-500 dark:text-neutral-200"} `}
                   >
                     {item.name}
                   </Link>
@@ -109,8 +109,22 @@ export default function HeaderComp() {
             })}
           </ul>
         </div>
+
         {/* side menu items like login/logout for big devices */}
-        <div className="hidden space-x-2 sm:block">
+
+        {/* search component for above md */}
+        <div className="hidden gap-4 p-4 align-middle lg:flex">
+          {authStatus && (
+            <div className="flex gap-3 self-end text-center">
+              <SearchComp className="min-h-6 flex-initial" />
+            </div>
+          )}
+          {/* dark mode toggler */}
+          <div className="hidden lg:block">
+            <TogglerComp />
+          </div>
+        </div>
+        <div className="hidden space-x-2 lg:block">
           {sideMenuItems.map((item) => {
             const isActive = currentPage === item.slug;
             return item.active ? (
@@ -149,23 +163,30 @@ export default function HeaderComp() {
         {/* logout button if the user is logged in */}
         <div>
           {authStatus && (
-            <LogoutBtnComp className="hidden outline-none dark:border-2 dark:border-solid dark:border-gray-600 dark:bg-transparent dark:text-white dark:hover:bg-red-600 sm:block" />
+            <LogoutBtnComp className="hidden outline-none dark:border-2 dark:border-solid dark:border-gray-600 dark:bg-transparent dark:text-white dark:hover:bg-red-600 lg:block" />
           )}
         </div>
-        {/* dark mode toggler */}
-        <div className="m-3 hidden sm:block">
-          <TogglerComp />
+
+        <div className="flex gap-3 lg:hidden">
+          {/* search component for above md */}
+          <div className="lg:hidden">
+            {authStatus && (
+              <div className="flex gap-4">
+                <SearchComp className="flex-shrink py-0" width="w-full" />
+              </div>
+            )}
+          </div>
+          {/* hamburger icon for small devices */}
+          <div>
+            <Menu onClick={toggleMenu} className="h-6 w-6 cursor-pointer" />
+          </div>
         </div>
 
-        <div className="sm:hidden">
-          {/* hamburger icon for small devices */}
-          <Menu onClick={toggleMenu} className="h-6 w-6 cursor-pointer" />
-        </div>
         {/* {isMenuOpen && ( */}
         <div
           ref={refe}
           // className={`absolute inset-x-0 top-0 z-50 origin-top-right transform p-2 transition-all duration-700 lg:hidden ${isMenuOpen ? "block" : "hidden"} `}
-          className={`absolute inset-x-0 top-0 z-50 origin-top-right transition-all duration-500 sm:hidden ${isMenuOpen ? "translate-y-0" : "-translate-y-full "}`}
+          className={`absolute inset-x-0 top-0 z-50 origin-top-right transition-all duration-500 lg:hidden ${isMenuOpen ? "translate-y-0" : "-translate-y-full"}`}
         >
           <div className="divide-y-2 divide-gray-50 rounded-lg bg-white shadow-lg ring-1 ring-black ring-opacity-5 dark:bg-[#1e1e1e]">
             <div className="px-5 pb-6 pt-5">
@@ -260,7 +281,6 @@ export default function HeaderComp() {
             </div>
           </div>
         </div>
-        {/* )} */}
       </div>
     </div>
   );

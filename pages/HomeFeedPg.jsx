@@ -24,32 +24,37 @@ function HomeFeedPg() {
   // * useSelector
   const postStatusSelector = (state) => state.post.status;
   const postsSelector = (state) => state.post.posts;
+  const searchPostsSelector = (state) => state.post.searchPosts;
   const postInfoSelector = createSelector(
-    [postStatusSelector, postsSelector],
-    (status, posts) => ({
+    [postStatusSelector, postsSelector, searchPostsSelector],
+    (status, posts, searchPosts) => ({
       isAllPostsStore: status,
       allPostsStore: posts,
+      searchPostsStore: searchPosts,
     }),
   );
-  const { isAllPostsStore, allPostsStore } = useSelector(postInfoSelector);
+  const { isAllPostsStore, allPostsStore, searchPostsStore } =
+    useSelector(postInfoSelector);
 
   // * fetch data from appwrite and dispatch to store on initial render for the all Posts
   useEffect(() => {
     // console.log("initial data fetching");
     const fetchInitialData = async () => {
-      if (allPostsStore.length == 0) {
-        setIsLoading(true);
-        const page = await appwriteConfigService.getAllPost([
-          Query.equal("status", "active"),
-          Query.limit(6),
-          Query.orderDesc(""),
-        ]);
-        if (page && page.documents.length > 0) {
-          lastDocumentId = page.documents[page.documents.length - 1].$id;
-          totalItems = page.total;
-          handleDispatch(page.documents, true);
+      if (searchPostsStore == null) {
+        if (allPostsStore?.length == 0) {
+          setIsLoading(true);
+          const page = await appwriteConfigService.getAllPost([
+            Query.equal("status", "active"),
+            Query.limit(6),
+            Query.orderDesc(""),
+          ]);
+          if (page && page.documents.length > 0) {
+            lastDocumentId = page.documents[page.documents.length - 1].$id;
+            totalItems = page.total;
+            handleDispatch(page.documents, true);
+          }
+          setIsLoading(false);
         }
-        setIsLoading(false);
       }
     };
     fetchInitialData();
@@ -103,6 +108,8 @@ function HomeFeedPg() {
     if (!isAllPostsLoaded) debouncedFetchNextData();
     return () => debouncedFetchNextData.cancel();
   }, [entry?.isIntersecting]);
+  // * post to display
+  const postsToDisplay = searchPostsStore ? searchPostsStore : allPostsStore;
 
   // * if data is not fetched yet
   if (!isAllPostsStore) {
@@ -118,9 +125,11 @@ function HomeFeedPg() {
   return (
     <ContainerComp>
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
-        {allPostsStore.map((post, index) => {
+        {postsToDisplay.map((post, index) => {
           const isLastPost =
-            index === allPostsStore.length - 1 && !isAllPostsLoaded;
+            index === postsToDisplay.length - 1 &&
+            !isAllPostsLoaded &&
+            postsToDisplay !== searchPostsStore;
           return post.status === "active" ? (
             <div
               key={post.$id}

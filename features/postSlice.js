@@ -8,6 +8,7 @@ const postSlice = createSlice({
     userPosts: [],
     userPostsStatus: false,
     currentPost: null,
+    searchPosts: null,
   },
   reducers: {
     allPostsRed: (state, action) => {
@@ -20,19 +21,25 @@ const postSlice = createSlice({
     },
     deletePostRed: (state, action) => {
       state.posts = state.posts.filter((post) => post.$id !== action.payload);
-      state.userPosts = state.userPosts.filter((post) => post.$id !== action.payload);
+      state.userPosts = state.userPosts.filter(
+        (post) => post.$id !== action.payload,
+      );
     },
     editPostRed: (state, action) => {
       state.posts = state.posts.map((post) =>
-        post.$id === action.payload.$id ? action.payload : post
+        post.$id === action.payload.$id ? action.payload : post,
       );
       state.userPosts = state.userPosts.map((post) =>
-        post.$id === action.payload.$id ? action.payload : post
+        post.$id === action.payload.$id ? action.payload : post,
       );
-      state.currentPost = state.posts.find((post) => post.$id === action.payload.$id) || null;
+      state.currentPost =
+        state.posts.find((post) => post.$id === action.payload.$id) || null;
     },
     currentPostRed: (state, action) => {
       state.currentPost = action.payload;
+    },
+    searchPostsRed: (state, action) => {
+      state.searchPosts = action.payload;
     },
     logoutPostRed: (state) => {
       state.posts = [];
@@ -44,6 +51,13 @@ const postSlice = createSlice({
   },
 });
 
-export const { allPostsRed, userPostsRed, deletePostRed, editPostRed, currentPostRed,logoutPostRed } =
-  postSlice.actions;
+export const {
+  allPostsRed,
+  userPostsRed,
+  deletePostRed,
+  editPostRed,
+  currentPostRed,
+  logoutPostRed,
+  searchPostsRed,
+} = postSlice.actions;
 export default postSlice.reducer;

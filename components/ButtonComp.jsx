@@ -15,7 +15,7 @@ function ButtonComp({
     <button
       type={type}
       onClick={onClick}
-      className={`rounded-md p-1 shadow-md transition-all ${font} font-sans ${bgColor} ${textColor} ${hover} ${width} ${className}`}
+      className={`rounded-md p-1 shadow-md transition-all ${font} font-sans ${bgColor} ${textColor} ${hover} ${width} ${className} min-w-20`}
       {...props}
     >
       {children}

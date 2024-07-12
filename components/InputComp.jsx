@@ -4,6 +4,7 @@ const InputComp = forwardRef(function InputComp(
   {
     type = "text",
     placeholder = "Enter text",
+    width = "w-full",
     label,
     className = "",
     ...props
@@ -25,7 +26,7 @@ const InputComp = forwardRef(function InputComp(
         id={inputId}
         type={type}
         placeholder={placeholder}
-        className={`w-full rounded-lg border border-gray-400 bg-white px-3 py-2 text-black outline-none duration-200 focus:border-cyan-900 dark:bg-transparent dark:text-white ${className}`}
+        className={`${width} rounded-lg border border-gray-400 bg-white px-3 py-2 text-black outline-none duration-200 focus:border-cyan-900 dark:bg-transparent dark:text-white ${className}` }
         ref={ref}
         {...props}
       />

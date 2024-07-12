@@ -29,7 +29,7 @@ function PostFormComp({ post }) {
   const handleFileChange = (e) => {
     e.currentTarget.files.length > 0
       ? setIsFileSelected(true)
-      : setIsFileSelected(false);
+      : setIsFileSelected(false); 
   };
   const dispatch = useDispatch();
   const allPostsStore = useSelector((state) => state.post.posts);

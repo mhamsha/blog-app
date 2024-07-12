@@ -24,8 +24,9 @@ function LogoutBtnComp({
       textColor="text-gray-600"
       hover={hover}
       type={type}
-      className={`inline-bock h m-2 rounded-full px-2 py-1 transition-all duration-200 hover:text-white ${className}`}
+      className={`inline-bock h m-2 rounded-full px-2 py-1 transition-all duration-200 hover:text-white  ${className}  `}
       onClick={logoutHandler}
+      
       {...props}
     >
       {children}
