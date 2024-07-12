@@ -15,18 +15,28 @@ export default function PostPg() {
   const isAllPostsStore = (state) => state.post.posts;
   const isAllUserData = (state) => state.auth.userData;
   const isCurrentPost = (state) => state.post.currentPost;
+  const isSearhPosts = (state) => state.post.searchPosts;
+  const isYourPost = (state) => state.post.yourPosts;
   const postInfoSelector = createSelector(
-    [isAllPostsStore, isAllUserData, isCurrentPost],
-    (posts, data, currPost) => ({
+    [isAllPostsStore, isAllUserData, isCurrentPost, isSearhPosts, isYourPost],
+    (posts, data, currPost, searchPosts, yourPosts) => ({
       allPostsStore: posts,
       userData: data,
       currentPost: currPost,
+      searchPostsStore: searchPosts,
+      yourPostsStore: yourPosts,
     }),
   );
-  const { allPostsStore, userData, currentPost } =
-    useSelector(postInfoSelector);
+  const {
+    allPostsStore,
+    userData,
+    currentPost,
+    searchPostsStore,
+    yourPostsStore,
+  } = useSelector(postInfoSelector);
   const [isAuthor, setIsAuthor] = useState(false);
 
+  const postToFind = searchPostsStore ? searchPostsStore : allPostsStore ? allPostsStore : yourPostsStore;
   useEffect(() => {
     const fetchPost = async () => {
       if (!currentPost) {
@@ -42,7 +52,7 @@ export default function PostPg() {
       } else if (currentPost?.$id === slug) {
         setIsAuthor(currentPost.userID === userData.$id);
       } else {
-        const foundPost = allPostsStore?.find((post) => post.$id === slug);
+        const foundPost = postToFind?.find((post) => post.$id === slug);
         if (foundPost) {
           dispatch(currentPostRed(foundPost));
           setIsAuthor(foundPost.userID === userData.$id);
@@ -93,7 +103,7 @@ export default function PostPg() {
               <ButtonComp
                 bgColor="bg-red-500"
                 hover="hover:bg-red-600"
-                className="mt-2 flex flex-auto"
+                className="mt-2 flex flex-auto justify-center"
                 onClick={deletePost}
               >
                 Delete
