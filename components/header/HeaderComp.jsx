@@ -149,10 +149,10 @@ export default function HeaderComp() {
                 navigate("/account-verify");
               }}
               // className={`text-sm py-1.5 px-1 bg-red-500 hover:bg-red-600 `}
-              className={`px-1 py-2 text-sm ${
+              className={`px-1 py-2  ${
                 userData.emailVerification
                   ? "cursor-default bg-green-500 hover:bg-green-500"
-                  : "bg-red-500 hover:bg-red-600"
+                  : "bg-red-500 hover:bg-red-600 dark:opacity-90 "
               }`}
               disabled={userData.emailVerification}
             >
@@ -163,7 +163,12 @@ export default function HeaderComp() {
         {/* logout button if the user is logged in */}
         <div>
           {authStatus && (
-            <LogoutBtnComp className="hidden outline-none dark:border-2 dark:border-solid dark:border-gray-600 dark:bg-transparent dark:text-white dark:hover:bg-red-600 lg:block" />
+            <LogoutBtnComp
+              className="m-2 hidden bg-gray-400 p-0 text-gray-600 hover:bg-red-500 hover:text-white dark:bg-transparent dark:text-white dark:hover:bg-red-600 lg:block"
+              style={{
+                boxShadow: "0 0 0 2px rgba(255, 255, 255, 0.5)",
+              }}
+            />
           )}
         </div>
 
@@ -258,10 +263,10 @@ export default function HeaderComp() {
                     onClick={() => {
                       navigate("/account-verify");
                     }}
-                    className={`ml-2 px-1 py-1.5 text-sm ${
+                    className={`m-2 min-w-36 mb-1 text-base ${
                       userData.emailVerification
                         ? "cursor-default bg-green-500 hover:bg-green-500 dark:opacity-85"
-                        : "bg-red-600 hover:bg-red-600 dark:opacity-85"
+                        : "bg-gray-500 hover:bg-gray-600 dark:opacity-85"
                     }`}
                     disabled={userData.emailVerification}
                   >
@@ -273,7 +278,7 @@ export default function HeaderComp() {
                 {/* logout button for small devices */}
                 {authStatus && (
                   <LogoutBtnComp
-                    className="w-[40%] bg-red-600 text-white dark:opacity-85"
+                    className="m-2 min-w-36 bg-red-700 text-white dark:opacity-90 max-sm:block text-base"
                     hover=""
                   />
                 )}

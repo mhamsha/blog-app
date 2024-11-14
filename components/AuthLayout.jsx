@@ -1,66 +1,31 @@
-/* eslint-disable react/prop-types */
-import { useState, useEffect } from "react";
-import { useSelector } from "react-redux";
+import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { LoaderComp } from "../components";
+import { useAuthUserStatus } from "../src/hooks/useAuthService";
+import PropTypes from "prop-types";
 
+// * Prop Validation
+Protected.propTypes = {
+  children: PropTypes.node.isRequired,
+  authentication: PropTypes.bool,
+};
+
+// * Protecting Routing
 function Protected({ children, authentication = true }) {
-  const authStatus = useSelector((state) => state.auth.status);
-  const [loader, setLoader] = useState(true);
+  const authStatus = useAuthUserStatus();
   const navigate = useNavigate();
 
   useEffect(() => {
+    // Navigate to login if user is not authenticated and authentication is required
     if (!authStatus && authentication) {
       navigate("/login");
-    } else if (authStatus && !authentication) {
+    } 
+    // Navigate to home if user is authenticated but authentication is not required
+    else if (authStatus && !authentication) {
       navigate("/");
     }
-    setLoader(false);
   }, [authStatus, authentication, navigate]);
 
-  return loader ? (
-    <div>
-      <LoaderComp />
-    </div>
-  ) : (
-    <>{children}</>
-  );
+  return <>{children}</>;
 }
 
 export default Protected;
-
-// export default function Protected({ children, authentication = true, checkOtpPage = false }) {
-//   const authStatus = useSelector((state) => state.auth.status);
-//   const otpStatus = useSelector((state) => state.auth.otpStatus);
-//   const [loader, setLoader] = useState(true);
-//   const navigate = useNavigate();
-
-//   useEffect(() => {
-//     // Redirect logic for OTP verification page
-//     if (checkOtpPage) {
-//       if (!otpStatus || authStatus) {
-//         // If OTP status is false or user is already authenticated, redirect to login or home page
-//         navigate(authStatus ? "/" : "/signup");
-//       }
-//     } else {
-//       // Existing redirect logic for other scenarios
-//       if (!authStatus && authentication && !otpStatus) {
-//         navigate("/login");
-//       } else if (authStatus && !authentication && !otpStatus) {
-//         navigate("/");
-//       }
-//        else if (otpStatus && !authentication && !authStatus) {
-//         navigate("/signup/otp-varification");
-//       }
-//     }
-//     setLoader(false);
-//   }, [authStatus, authentication, navigate, otpStatus, checkOtpPage]);
-
-//   return loader ? (
-//     <div>
-//       <LoaderComp />
-//     </div>
-//   ) : (
-//     <>{children}</>
-//   );
-// }

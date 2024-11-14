@@ -29,7 +29,7 @@ function PostFormComp({ post }) {
   const handleFileChange = (e) => {
     e.currentTarget.files.length > 0
       ? setIsFileSelected(true)
-      : setIsFileSelected(false); 
+      : setIsFileSelected(false);
   };
   const dispatch = useDispatch();
   const allPostsStore = useSelector((state) => state.post.posts);
@@ -93,10 +93,14 @@ function PostFormComp({ post }) {
         await appwriteConfigService.deleteFile(post.featuredImage);
       }
 
-      const postUpdated = await appwriteConfigService.updatePost(post.$id, {
-        ...data,
-        featuredImage: imageUpload ? imageUpload.$id : undefined,
-      });
+      const postUpdated = await appwriteConfigService.updateEntity(
+        "post",
+        post.$id,
+        {
+          ...data,
+          featuredImage: imageUpload ? imageUpload.$id : undefined,
+        },
+      );
       if (postUpdated) {
         dispatch(editPostRed(postUpdated));
         setIsLoading(false);
@@ -109,7 +113,7 @@ function PostFormComp({ post }) {
         data.featuredImage[0],
       );
       if (imageUpload) {
-        const postCreated = await appwriteConfigService.createPost({
+        const postCreated = await appwriteConfigService.createEntity("post", {
           ...data,
           featuredImage: imageUpload.$id,
           userID: userData.$id,

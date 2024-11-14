@@ -47,7 +47,7 @@ export default function PostCardComp({
             {hashTagsArray.slice(0, 2).map((tag) => (
               <span
                 key={tag}
-                className="mb-2 mr-2 inline-block rounded-full bg-gray-100 px-3 py-1 text-[10px] font-semibold text-gray-900 dark:bg-gray-500 dark:text-white"
+                className="mb-2 mr-2 inline-block rounded-full bg-gray-100 px-3 py-1 text-[10px] font-normal text-gray-900 dark:bg-gray-500 dark:text-gray-200  tracking-widest leading-2 text-xs"
               >
                 {`#${tag}`}
               </span>
@@ -68,12 +68,7 @@ export default function PostCardComp({
             )}
           </div>
 
-          <ButtonComp
-            bgColor="sm:bg-gray-400"
-            textColor="text-white"
-            hover="sm:hover:bg-gray-500 dark:bg-gray-600 dark:text-white"
-            className="mt-3 bg-gray-600 dark:bg-gray-500 dark:text-white"
-          >
+          <ButtonComp className="mt-3 w-full bg-gray-500 p-0 dark:bg-gray-700 dark:text-white sm:hover:bg-gray-600 dark:sm:hover:bg-gray-800">
             Read
           </ButtonComp>
         </div>

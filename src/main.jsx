@@ -12,6 +12,7 @@ import {
   LoginPg,
   YourPostsPg,
   SignupPg,
+  CommentPg,
 } from "../pages";
 import { Protected, PageNotFoundComp, OtpComp } from "../components";
 const router = createBrowserRouter([
@@ -86,10 +87,17 @@ const router = createBrowserRouter([
         ),
       },
       {
+        path: "/post/:slug/comments",
+        element: (
+          <Protected authentication>
+            <CommentPg />
+          </Protected>
+        ),
+      },
+      {
         path: "*",
         element: <PageNotFoundComp />,
       },
-     
     ],
   },
 ]);
@@ -99,5 +107,5 @@ ReactDOM.createRoot(document.getElementById("root")).render(
     {/* <React.StrictMode> */}
     <RouterProvider router={router} />
     {/* </React.StrictMode> */}
-  </Provider>
+  </Provider>,
 );

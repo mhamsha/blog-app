@@ -16,6 +16,7 @@ import LoaderComp from "./LoaderComp";
 import OtpComp from "./OtpComp";
 import TogglerComp from "./TogglerComp";
 import SearchComp from "./SearchComp";
+import CommentComp from "./CommentComp";
 export {
   HeaderComp,
   FooterComp,
@@ -35,4 +36,5 @@ export {
   OtpComp,
   TogglerComp,
   SearchComp,
+  CommentComp
 };
