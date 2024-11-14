@@ -19,8 +19,8 @@ function SearchComp({ width, className = "" }) {
 
   const searchFunc = async (data) => {
     setIsLoading(true);
-    if (!data.search == "") {
-      const searchReq = await appwriteConfigService.getAllPost([
+    if (!data.search === "") {
+      const searchReq = await appwriteConfigService.getAllEntity("post", [
         Query.or([
           Query.search("title", data.search),
           Query.search("author", data.search),

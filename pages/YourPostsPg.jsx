@@ -39,7 +39,7 @@ function YourPostPg() {
     const fetchInitialData = async () => {
       if (userPostsStore.length === 0) {
         setIsLoading(true);
-        const page = await appwriteConfigService.getAllPost([
+        const page = await appwriteConfigService.getAllEntity("post", [
           Query.equal("userID", userData.$id),
           Query.limit(6),
           Query.orderDesc(""),
@@ -59,7 +59,7 @@ function YourPostPg() {
     // console.log("fetching next data");
     setIsLoading(true);
     if (lastDocumentId) {
-      const page = await appwriteConfigService.getAllPost([
+      const page = await appwriteConfigService.getAllEntity("post", [
         Query.limit(6),
         Query.cursorAfter(lastDocumentId),
         Query.orderDesc(""),

@@ -114,8 +114,8 @@ function LoginComp() {
               />
             </div>
             <ButtonComp
-              bgColor="bg-blue-500"
-              textColor="text-white"
+              // bgColor="bg-blue-500"
+              // textColor="text-white"
               type="submit"
               disabled={isAllowed}
               className="dark:bg-blue-700 dark:opacity-80 dark:hover:bg-blue-700 dark:hover:opacity-95"
@@ -126,8 +126,8 @@ function LoginComp() {
         </form>
 
         <ButtonComp
-          bgColor="bg-gray-800"
-          hover="hover:bg-gray-900"
+          // bgColor="bg-gray-800"
+          // hover="hover:bg-gray-900"
           textColor="text-white"
           type="button"
           className="mt-2 flex items-center justify-center gap-x-2"

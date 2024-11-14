@@ -5,9 +5,8 @@ import { logout } from "../../features/authSlice";
 import { logoutPostRed } from "../../features/postSlice";
 import { useDispatch } from "react-redux";
 function LogoutBtnComp({
-  children = "logout",
+  children = "Logout",
   type = "submit",
-  hover = "hover:bg-red-500",
   className = "",
   ...props
 }) {
@@ -20,13 +19,9 @@ function LogoutBtnComp({
   };
   return (
     <ButtonComp
-      bgColor="bg-gray-300"
-      textColor="text-gray-600"
-      hover={hover}
       type={type}
-      className={`inline-bock h m-2 rounded-full px-2 py-1 transition-all duration-200 hover:text-white  ${className}  `}
+      className={`${className} `}
       onClick={logoutHandler}
-      
       {...props}
     >
       {children}

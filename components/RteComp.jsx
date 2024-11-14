@@ -12,8 +12,6 @@ function RteComp({
   rulesGiven,
 }) {
   const isDarkMode = useSelector((state) => state.ui.isDarkMode);
-  console.log("rendered");
-  console.log(isDarkMode);
   return (
     <>
       {label && <label className="mb-1 inline-block pl-1">{label}</label>}

@@ -1,21 +1,22 @@
-/* eslint-disable react/prop-types */
+import PropTypes from "prop-types";
+ButtonComp.propTypes = {
+  children: PropTypes.string,
+  type: PropTypes.string,
+  onClick: PropTypes.func,
+  className: PropTypes.string,
+};
 function ButtonComp({
   children = "Button",
   type = "button",
-  width = "w-full",
-  bgColor = "bg-blue-600",
-  textColor = "text-white",
-  hover = "hover:bg-blue-700 ",
-  font = "font-semibold",
-  className = "",
   onClick,
+  className = "",
   ...props
 }) {
   return (
     <button
       type={type}
       onClick={onClick}
-      className={`rounded-md p-1 shadow-md transition-all ${font} font-sans ${bgColor} ${textColor} ${hover} ${width} ${className} min-w-20`}
+      className={`base-btn ${className} `}
       {...props}
     >
       {children}

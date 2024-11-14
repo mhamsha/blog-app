@@ -2,6 +2,7 @@ import { useEffect, useCallback, useState } from "react";
 import appwriteConfigService from "../appwrite/appwriteConfig";
 import { ContainerComp, PostCardComp, LoaderComp } from "../components/index";
 import { allPostsRed } from "../features/postSlice";
+import { addReactionRed } from "../features/postReactSlice";
 import { useSelector, useDispatch } from "react-redux";
 import { createSelector } from "reselect";
 import { debounce } from "lodash";
@@ -17,10 +18,26 @@ function HomeFeedPg() {
   const handleDispatch = useCallback(
     (data, stat) => {
       dispatch(allPostsRed({ posts: data, status: stat }));
+      // console.log(data);
+      data.forEach((post) => {
+        dispatch(
+          addReactionRed({
+            postId: post.$id,
+            likesCount: post.likes.reduce(
+              (acc, like) => acc + like.likesCount,
+              0,
+            ),
+            dislikesCount: post.likes.reduce(
+              (acc, dislike) => acc + dislike.dislikesCount,
+              0,
+            ),
+            comments: post.comments,
+          }),
+        );
+      });
     },
     [dispatch],
   );
-
   // * useSelector
   const postStatusSelector = (state) => state.post.status;
   const postsSelector = (state) => state.post.posts;
@@ -39,15 +56,17 @@ function HomeFeedPg() {
   // * fetch data from appwrite and dispatch to store on initial render for the all Posts
   useEffect(() => {
     // console.log("initial data fetching");
+
     const fetchInitialData = async () => {
       if (searchPostsStore == null) {
         if (allPostsStore?.length == 0) {
           setIsLoading(true);
-          const page = await appwriteConfigService.getAllPost([
+          const page = await appwriteConfigService.getAllEntity("post", [
             Query.equal("status", "active"),
             Query.limit(6),
             Query.orderDesc(""),
           ]);
+
           if (page && page.documents.length > 0) {
             lastDocumentId = page.documents[page.documents.length - 1].$id;
             totalItems = page.total;
@@ -64,7 +83,7 @@ function HomeFeedPg() {
     // console.log("fetching next data");
     setIsLoading(true);
     if (lastDocumentId) {
-      const page = await appwriteConfigService.getAllPost([
+      const page = await appwriteConfigService.getAllEntity("post", [
         Query.limit(6),
         Query.orderDesc(""),
         Query.cursorAfter(lastDocumentId),
