@@ -45,7 +45,7 @@ function SignupComp() {
   const loginWithGithub = async () => {
     try {
       const githubLoginData = await appwriteAuthService.githubLogin();
-      console.log(githubLoginData);
+      // console.log(githubLoginData);
     } catch (error) {
       setError(error.message);
     }

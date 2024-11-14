@@ -105,6 +105,7 @@ function LoginComp() {
                 }}
                 onError={(error) => {
                   if (error) handleSuccessTurnstile();
+                  
                 }}
                 options={{
                   action: "submit-form",
