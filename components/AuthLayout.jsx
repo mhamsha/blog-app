@@ -22,6 +22,7 @@ function Protected({ children, authentication = true }) {
     // Navigate to home if user is authenticated but authentication is not required
     else if (authStatus && !authentication) {
       navigate("/");
+      // just for testing
     }
   }, [authStatus, authentication, navigate]);
 
